@@ -9,10 +9,7 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -42,5 +39,21 @@ public class CocktailController {
         }
         String result = cocktailsGson.toJson(allCocktails);
         return result;
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/cocktails/{id}")
+    public String getCocktailById(@PathVariable("id") int id){
+        for (DrinksResponse drinks:cocktailDAOMem.getCocktailList()) {
+            for (DrinkItem drink: drinks.getDrinks()){
+                if (Integer.parseInt(drink.getIdDrink()) == id){
+                    Gson gsonDrink = new Gson();
+                    String result = gsonDrink.toJson(drink);
+                    System.out.println(result);
+                    return result;
+                }
+            }
+        }
+        return "";
     }
 }
