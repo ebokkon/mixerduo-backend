@@ -17,6 +17,10 @@ public class CocktailDAOMem {
         return cocktailList;
     }
 
+    public void setCocktailList(List<DrinksResponse> cocktailList) {
+        this.cocktailList = cocktailList;
+    }
+
     public void add(DrinksResponse drinksResponse) {
         cocktailList.add(drinksResponse);
     }

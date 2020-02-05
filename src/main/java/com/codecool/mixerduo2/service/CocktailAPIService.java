@@ -26,7 +26,7 @@ public class CocktailAPIService {
     private void fetchData(String letter){
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<DrinksResponse> responseEntity = restTemplate.exchange(cocktailsUrl+letter, HttpMethod.GET, null, DrinksResponse.class);
-        System.out.println(responseEntity.getBody());
+//        System.out.println(responseEntity);
         cocktailDAOMem.add(responseEntity.getBody());
     }
 
