@@ -2,6 +2,7 @@ package com.codecool.mixerduo2.dao;
 
 import com.codecool.mixerduo2.model.generated.DrinkItem;
 import com.codecool.mixerduo2.model.generated.DrinksResponse;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,5 +31,16 @@ public class CocktailDAOMem {
         return "CocktailDAOMem{" +
                 "cocktailList=" + cocktailList +
                 '}';
+    }
+
+    public DrinkItem getCocktailById(int id) {
+        for (DrinksResponse drinks:cocktailList) {
+            for (DrinkItem drink: drinks.getDrinks()){
+                if (Integer.parseInt(drink.getIdDrink()) == id){
+                    return drink;
+                }
+            }
+        }
+        return null;
     }
 }

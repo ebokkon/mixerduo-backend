@@ -44,16 +44,28 @@ public class CocktailController {
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/cocktails/{id}")
     public String getCocktailById(@PathVariable("id") int id){
-        for (DrinksResponse drinks:cocktailDAOMem.getCocktailList()) {
-            for (DrinkItem drink: drinks.getDrinks()){
-                if (Integer.parseInt(drink.getIdDrink()) == id){
-                    Gson gsonDrink = new Gson();
-                    String result = gsonDrink.toJson(drink);
-                    System.out.println(result);
-                    return result;
-                }
-            }
-        }
+        DrinkItem drink = cocktailDAOMem.getCocktailById(id);
+        Gson gsonDrink = new Gson();
+        String result = gsonDrink.toJson(drink);
+        return result;
+    }
+
+
+    @CrossOrigin(origins ="http://localhost:3000" )
+    @GetMapping("/get-cart")
+    public String getCart(){
+        return "";
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/add-to-cart/{name}")
+    public String addToCart (@PathVariable("name") String name){
+        return "";
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/remove-from-cart/{name}")
+    public String removeFromCart (@PathVariable("name") String name){
         return "";
     }
 }
