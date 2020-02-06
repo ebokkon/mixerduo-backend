@@ -1,16 +1,15 @@
 package com.codecool.mixerduo2.controller;
 
 import com.codecool.mixerduo2.dao.CocktailDAOMem;
+import com.codecool.mixerduo2.model.Cart;
 import com.codecool.mixerduo2.model.generated.DrinkItem;
-import com.codecool.mixerduo2.model.generated.DrinksResponse;
 import com.codecool.mixerduo2.service.CocktailAPIService;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.gson.Gson;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @RestController
@@ -23,9 +22,19 @@ public class CocktailController {
     @Autowired
     private CocktailDAOMem cocktailDAOMem;
 
+    @Autowired
+    private Cart cart;
+
+    @Autowired
+    private HttpSession session;
+
     @CrossOrigin(origins="http://localhost:3000")
     @GetMapping("/")
     public String getData() throws JSONException {
+        session.setAttribute(cart.getId(), cart);
+        Cart currentCart = (Cart) session.getAttribute(cart.getId());
+
+        System.out.println(currentCart.toString());
         cocktailAPIService.initDataMemory();
 
         Gson cocktailsGson = new Gson();
@@ -53,14 +62,21 @@ public class CocktailController {
 
     @CrossOrigin(origins ="http://localhost:3000" )
     @GetMapping("/get-cart")
-    public String getCart(){
-        return "";
+    public String getCart() {
+        Cart currentCart = (Cart) session.getAttribute(cart.getId());
+        Gson gsonDrink = new Gson();
+        String result = gsonDrink.toJson(currentCart);
+        return result;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/add-to-cart/{name}")
-    public String addToCart (@PathVariable("name") String name){
-        return "";
+    @GetMapping("/add-to-cart/{coursename}")
+    public String addToCart (@PathVariable("coursename") String name){
+        Cart currentCart = (Cart) session.getAttribute(cart.getId());
+        Cart updatedCart = currentCart.addToCart(name);
+        Gson gsonDrink = new Gson();
+        String result = gsonDrink.toJson(updatedCart);
+        return result;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
