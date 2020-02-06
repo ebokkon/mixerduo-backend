@@ -1,5 +1,6 @@
 package com.codecool.mixerduo2.model;
 
+import org.springframework.stereotype.Component;
 
 public class Course {
 

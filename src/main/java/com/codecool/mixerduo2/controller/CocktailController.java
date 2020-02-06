@@ -25,22 +25,19 @@ public class CocktailController {
     @Autowired
     private Cart cart;
 
-    @Autowired
-    private HttpSession session;
+//    @Autowired
+//    private HttpSession session;
 
     @CrossOrigin(origins="http://localhost:3000")
     @GetMapping("/")
     public String getData() throws JSONException {
-        session.setAttribute(cart.getId(), cart);
-        Cart currentCart = (Cart) session.getAttribute(cart.getId());
 
-        System.out.println(currentCart.toString());
+//        session.setAttribute("cart", cart);
+//        Cart currentCart = (Cart) session.getAttribute("cart");
+
         cocktailAPIService.initDataMemory();
-
         Gson cocktailsGson = new Gson();
-
         List<DrinkItem> allCocktails = new ArrayList<>();
-
         for (int i = 0; i < 26; i++) {
             if (cocktailDAOMem.getCocktailList() != null && cocktailDAOMem.getCocktailList().get(i).getDrinks() != null) {
                 allCocktails.addAll(cocktailDAOMem.getCocktailList().get(i).getDrinks());
@@ -59,29 +56,48 @@ public class CocktailController {
         return result;
     }
 
-
     @CrossOrigin(origins ="http://localhost:3000" )
     @GetMapping("/get-cart")
     public String getCart() {
-        Cart currentCart = (Cart) session.getAttribute(cart.getId());
         Gson gsonDrink = new Gson();
-        String result = gsonDrink.toJson(currentCart);
+        String result = gsonDrink.toJson(cart.getCartMap());
         return result;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/add-to-cart/{coursename}")
     public String addToCart (@PathVariable("coursename") String name){
-        Cart currentCart = (Cart) session.getAttribute(cart.getId());
-        Cart updatedCart = currentCart.addToCart(name);
+        cart.addToCart(name);
         Gson gsonDrink = new Gson();
-        String result = gsonDrink.toJson(updatedCart);
+        String result = gsonDrink.toJson(cart.getCartMap());
         return result;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/remove-from-cart/{name}")
-    public String removeFromCart (@PathVariable("name") String name){
-        return "";
+    @GetMapping("/remove-from-cart/{coursename}")
+    public String removeFromCart (@PathVariable("coursename") String name){
+        cart.removeFromCart(name);
+        Gson gsonDrink = new Gson();
+        String result = gsonDrink.toJson(cart.getCartMap());
+        return result;
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/increase-in-cart/{coursename}")
+    public String increaseItemQuantity (@PathVariable("coursename") String name){
+        cart.increaseQuantity(name);
+        Gson gsonDrink = new Gson();
+        String result = gsonDrink.toJson(cart.getCartMap());
+        return result;
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/decrease-in-cart/{coursename}")
+    public String decreaseItemQuantity (@PathVariable("coursename") String name){
+        cart.decreaseQuantity(name);
+        Gson gsonDrink = new Gson();
+        String result = gsonDrink.toJson(cart.getCartMap());
+        return result;
+    }
+
 }
