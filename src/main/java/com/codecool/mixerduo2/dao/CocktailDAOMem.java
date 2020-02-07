@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Component
@@ -23,14 +24,7 @@ public class CocktailDAOMem {
     }
 
     public void add(DrinksResponse drinksResponse) {
-        cocktailList.add(drinksResponse);
-    }
-
-    @Override
-    public String toString() {
-        return "CocktailDAOMem{" +
-                "cocktailList=" + cocktailList +
-                '}';
+            cocktailList.add(drinksResponse);
     }
 
     public DrinkItem getCocktailById(int id) {
@@ -43,4 +37,12 @@ public class CocktailDAOMem {
         }
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "CocktailDAOMem{" +
+                "cocktailList=" + cocktailList +
+                '}';
+    }
+
 }
