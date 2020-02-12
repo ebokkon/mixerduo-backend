@@ -19,14 +19,14 @@ public class CocktailDAOMem {
     }
 
     public void add(DrinksResponse drinksResponse) {
-            cocktailList.add(drinksResponse);
+        cocktailList.add(drinksResponse);
     }
 
     public List<DrinkItem> getCocktailItems() {
         return cocktailItems;
     }
 
-    public void fillcocktailItemsFiltered() {
+    public void setCocktailItemsFiltered() {
         for (int i = 0; i < 26; i++) {
             if (cocktailList != null && cocktailList.get(i).getDrinks() != null) {
                 cocktailItems.addAll(cocktailList.get(i).getDrinks());
@@ -35,11 +35,9 @@ public class CocktailDAOMem {
     }
 
     public DrinkItem getCocktailById(int id) {
-        for (DrinksResponse drinks:cocktailList) {
-            for (DrinkItem drink: drinks.getDrinks()){
-                if (Integer.parseInt(drink.getIdDrink()) == id){
-                    return drink;
-                }
+        for (DrinkItem drink : cocktailItems) {
+            if (Integer.parseInt(drink.getIdDrink()) == id) {
+                return drink;
             }
         }
         return null;

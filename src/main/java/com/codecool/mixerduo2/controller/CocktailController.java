@@ -27,11 +27,11 @@ public class CocktailController {
     @PostConstruct
     public void init() throws Exception {
         cocktailAPIService.initDataMemory();
-        cocktailDAOMem.fillcocktailItemsFiltered();
+        cocktailDAOMem.setCocktailItemsFiltered();
     }
 
     @GetMapping("/") // TODO name every route
-    public List<DrinkItem> getData() throws Exception {
+    public List<DrinkItem> getData() {
         return cocktailDAOMem.getCocktailItems();
     }
 
