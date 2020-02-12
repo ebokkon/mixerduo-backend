@@ -7,6 +7,7 @@ import com.codecool.mixerduo2.service.CocktailAPIService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 
 @RestController
@@ -23,10 +24,13 @@ public class CocktailController {
     @Autowired
     private Cart cart;
 
+    @PostConstruct
+    public void init() throws Exception {
+        cocktailAPIService.initDataMemory();
+    }
+
     @GetMapping("/") // TODO name every route
     public List<DrinkItem> getData() throws Exception {
-
-        cocktailAPIService.initDataMemory(); // TODO init data once
         List<DrinkItem> allCocktails = new ArrayList<>();
         for (int i = 0; i < 26; i++) {
             if (cocktailDAOMem.getCocktailList() != null && cocktailDAOMem.getCocktailList().get(i).getDrinks() != null) {
