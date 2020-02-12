@@ -27,17 +27,12 @@ public class CocktailController {
     @PostConstruct
     public void init() throws Exception {
         cocktailAPIService.initDataMemory();
+        cocktailDAOMem.fillcocktailItemsFiltered();
     }
 
     @GetMapping("/") // TODO name every route
     public List<DrinkItem> getData() throws Exception {
-        List<DrinkItem> allCocktails = new ArrayList<>();
-        for (int i = 0; i < 26; i++) {
-            if (cocktailDAOMem.getCocktailList() != null && cocktailDAOMem.getCocktailList().get(i).getDrinks() != null) {
-                allCocktails.addAll(cocktailDAOMem.getCocktailList().get(i).getDrinks());
-            }
-        }
-        return allCocktails;
+        return cocktailDAOMem.getCocktailItems();
     }
 
     @GetMapping("/cocktails/{id}")

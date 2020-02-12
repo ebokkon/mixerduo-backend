@@ -12,20 +12,26 @@ public class CocktailDAOMem {
 
     private List<DrinksResponse> cocktailList = new ArrayList<>();
 
+    private List<DrinkItem> cocktailItems = new ArrayList<>();
+
     public List<DrinksResponse> getCocktailList() {
         return cocktailList;
-    }
-
-    public void setCocktailList(List<DrinksResponse> cocktailList) {
-        this.cocktailList = cocktailList;
     }
 
     public void add(DrinksResponse drinksResponse) {
             cocktailList.add(drinksResponse);
     }
 
-    public void addAll(List<DrinksResponse> data) {
-        cocktailList.addAll(data);
+    public List<DrinkItem> getCocktailItems() {
+        return cocktailItems;
+    }
+
+    public void fillcocktailItemsFiltered() {
+        for (int i = 0; i < 26; i++) {
+            if (cocktailList != null && cocktailList.get(i).getDrinks() != null) {
+                cocktailItems.addAll(cocktailList.get(i).getDrinks());
+            }
+        }
     }
 
     public DrinkItem getCocktailById(int id) {
