@@ -2,12 +2,9 @@ package com.codecool.mixerduo2.dao;
 
 import com.codecool.mixerduo2.model.generated.DrinkItem;
 import com.codecool.mixerduo2.model.generated.DrinksResponse;
-import com.google.gson.Gson;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Component
@@ -25,6 +22,10 @@ public class CocktailDAOMem {
 
     public void add(DrinksResponse drinksResponse) {
             cocktailList.add(drinksResponse);
+    }
+
+    public void addAll(List<DrinksResponse> data) {
+        cocktailList.addAll(data);
     }
 
     public DrinkItem getCocktailById(int id) {

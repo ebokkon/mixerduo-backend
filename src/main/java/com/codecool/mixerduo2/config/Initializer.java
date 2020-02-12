@@ -10,8 +10,7 @@ public class Initializer {
     @Autowired
     private CocktailAPIService cocktailAPIService;
 
-    public void initData(){
-        cocktailAPIService.initDataMemory();
-
-    }
+//    public void initData(){
+//        cocktailAPIService.initDataMemory();
+//    }
 }
