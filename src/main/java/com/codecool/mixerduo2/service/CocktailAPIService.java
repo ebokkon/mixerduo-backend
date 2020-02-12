@@ -29,19 +29,6 @@ public class CocktailAPIService {
 
     private final List<String> abc = Arrays.asList("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z");
 
-//    private void fetchData(String letter){
-//        RestTemplate restTemplate = new RestTemplate();
-//        ResponseEntity<DrinksResponse> responseEntity = restTemplate.exchange(cocktailsUrl+letter, HttpMethod.GET, null, DrinksResponse.class);
-//        System.out.println("=> " + responseEntity.getBody());
-//        cocktailDAOMem.add(responseEntity.getBody());
-//    }
-//
-//    public void initDataMemory (){
-//        for (String letter : abc) {
-//            fetchData(letter);
-//        }
-//    }
-
     public void initDataMemory () throws Exception {
         HttpClient httpClient = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_2)

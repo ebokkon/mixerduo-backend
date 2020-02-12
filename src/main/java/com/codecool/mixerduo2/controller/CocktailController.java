@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@CrossOrigin(origins="http://localhost:3000") // TODO move this to config
+@CrossOrigin(origins="${main.route}") // TODO move this to config
 @RequestMapping
 public class CocktailController {
 
@@ -23,7 +23,6 @@ public class CocktailController {
     @Autowired
     private Cart cart;
 
-    @CrossOrigin(origins="main.route")
     @GetMapping("/") // TODO name every route
     public List<DrinkItem> getData() throws Exception {
 

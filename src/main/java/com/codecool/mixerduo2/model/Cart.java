@@ -1,7 +1,4 @@
 package com.codecool.mixerduo2.model;
-
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -10,7 +7,6 @@ import java.util.Map;
 import java.util.UUID;
 
 @Component
-//@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS, value="session")
 public class Cart implements Serializable {
 
     private String id = UUID.randomUUID().toString();
