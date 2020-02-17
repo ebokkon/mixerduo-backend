@@ -13,10 +13,6 @@ import javax.persistence.*;
 @Generated("com.robohorse.robopojogenerator")
 public class DrinkItem {
 
-	@Id
-	@GeneratedValue
-	private Long id;
-
 	@Transient
 	@JsonProperty("strDrinkFR")
 	private Object strDrinkFR;
@@ -114,6 +110,7 @@ public class DrinkItem {
 	@JsonProperty("strIngredient8")
 	private String strIngredient8;
 
+	@Id
 	@JsonProperty("idDrink")
 	private String idDrink;
 
@@ -148,7 +145,6 @@ public class DrinkItem {
 	@JsonProperty("strDrinkAlternate")
 	private Object strDrinkAlternate;
 
-	@Transient
 	@JsonProperty("strDrinkThumb")
 	private String strDrinkThumb;
 

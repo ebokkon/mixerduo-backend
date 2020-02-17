@@ -3,17 +3,19 @@ package com.codecool.mixerduo2.controller;
 import com.codecool.mixerduo2.dao.CocktailDAOMem;
 import com.codecool.mixerduo2.model.Cart;
 import com.codecool.mixerduo2.model.generated.DrinkItem;
-import com.codecool.mixerduo2.service.CocktailAPIService;
+import com.codecool.mixerduo2.repository.DrinkItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
 import java.util.*;
 
 @RestController
 @CrossOrigin(origins="${main.route}")
 @RequestMapping
 public class CocktailController {
+
+    @Autowired
+    private DrinkItemRepository drinkItemRepository;
 
     @Autowired
     private CocktailDAOMem cocktailDAOMem;
@@ -23,12 +25,12 @@ public class CocktailController {
 
     @GetMapping("/all-data")
     public List<DrinkItem> getData() {
-        return cocktailDAOMem.getCocktailItems();
+        return drinkItemRepository.findAll();
     }
 
     @GetMapping("/cocktails/{id}")
-    public DrinkItem getCocktailById(@PathVariable("id") int id){
-        DrinkItem drink = cocktailDAOMem.getCocktailById(id);
+    public Optional<DrinkItem> getCocktailById(@PathVariable("id") int id){
+        Optional<DrinkItem> drink = drinkItemRepository.findById(String.valueOf(id));
         return drink;
     }
 
