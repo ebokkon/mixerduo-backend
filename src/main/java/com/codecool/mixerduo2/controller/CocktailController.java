@@ -30,7 +30,7 @@ public class CocktailController {
         cocktailDAOMem.setCocktailItemsFiltered();
     }
 
-    @GetMapping("/") // TODO name every route
+    @GetMapping("/all-data") // TODO name every route
     public List<DrinkItem> getData() {
         return cocktailDAOMem.getCocktailItems();
     }
