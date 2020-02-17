@@ -11,12 +11,9 @@ import javax.annotation.PostConstruct;
 import java.util.*;
 
 @RestController
-@CrossOrigin(origins="${main.route}") // TODO move this to config
+@CrossOrigin(origins="${main.route}")
 @RequestMapping
 public class CocktailController {
-
-    @Autowired
-    private CocktailAPIService cocktailAPIService;
 
     @Autowired
     private CocktailDAOMem cocktailDAOMem;
@@ -24,13 +21,7 @@ public class CocktailController {
     @Autowired
     private Cart cart;
 
-    @PostConstruct
-    public void init() throws Exception {
-        cocktailAPIService.initDataMemory();
-        cocktailDAOMem.setCocktailItemsFiltered();
-    }
-
-    @GetMapping("/all-data") // TODO name every route
+    @GetMapping("/all-data")
     public List<DrinkItem> getData() {
         return cocktailDAOMem.getCocktailItems();
     }
