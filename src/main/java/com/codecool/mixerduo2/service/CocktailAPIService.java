@@ -1,7 +1,9 @@
 package com.codecool.mixerduo2.service;
 
 import com.codecool.mixerduo2.dao.CocktailDAOMem;
+import com.codecool.mixerduo2.model.generated.DrinkItem;
 import com.codecool.mixerduo2.model.generated.DrinksResponse;
+import com.codecool.mixerduo2.repository.DrinkItemRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,11 +17,16 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class CocktailAPIService {
+
+    @Autowired
+    private DrinkItemRepository drinkItemRepository;
 
     @Autowired
     private CocktailDAOMem cocktailDAOMem;
@@ -34,16 +41,20 @@ public class CocktailAPIService {
                 .version(HttpClient.Version.HTTP_2)
                 .build();
         List<CompletableFuture<String>> asyncAPICallResult = sendGET(httpClient);
-        fillCocktailDAOMem(asyncAPICallResult);
+        fillDatabase(asyncAPICallResult);
     }
 
-    private void fillCocktailDAOMem(List<CompletableFuture<String>> asyncAPICallResult) throws InterruptedException, java.util.concurrent.ExecutionException, JsonProcessingException {
+    private void fillDatabase(List<CompletableFuture<String>> asyncAPICallResult) throws InterruptedException, java.util.concurrent.ExecutionException, JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         for (CompletableFuture<String> item : asyncAPICallResult) {
             if (item != null && item.get() != null) {
                 JsonNode tempJNode = mapper.readTree(item.get());
                 DrinksResponse drinksResponse = mapper.treeToValue(tempJNode, DrinksResponse.class);
-                cocktailDAOMem.add(drinksResponse);
+                if (drinksResponse.getDrinks() != null) {
+                    for (DrinkItem drinkItem : drinksResponse.getDrinks()) {
+                        drinkItemRepository.save(drinkItem);
+                    }
+                }
             }
         }
     }

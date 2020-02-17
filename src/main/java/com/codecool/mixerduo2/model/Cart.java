@@ -25,20 +25,14 @@ public class Cart implements Serializable {
     }
 
     public void addToCart(String name) {
-        for (Map.Entry<String,Integer> entry : cartMap.entrySet()) {
-            if (entry.getKey().equals(name)){
-                cartMap.put(entry.getKey(), cartMap.get(entry.getKey())+1);
-            }
+        if (cartMap.containsKey(name)){
+            cartMap.put(name, cartMap.get(name)+1);
         }
         cartMap.putIfAbsent(name, 1);
     }
 
     public void removeFromCart(String name) {
-        for (Map.Entry<String,Integer> entry : cartMap.entrySet()) {
-            if (entry.getKey().equals(name)) {
-                cartMap.remove(entry.getKey());
-            }
-        }
+        cartMap.remove(name);
     }
 
     public void increaseQuantity(String name) {
@@ -46,13 +40,9 @@ public class Cart implements Serializable {
     }
 
     public void decreaseQuantity(String name) {
-        for (Map.Entry<String,Integer> entry : cartMap.entrySet()) {
-            if (entry.getKey().equals(name) && cartMap.get(entry.getKey()) != 1) {
-                cartMap.put(entry.getKey(), cartMap.get(entry.getKey())-1);
-            }
-            if (entry.getKey().equals(name)){
-                cartMap.remove(entry.getKey());
-            }
+        if (cartMap.containsKey(name) && cartMap.get(name) == 1) cartMap.remove(name);
+        if (cartMap.containsKey(name) && cartMap.get(name) > 1) {
+            cartMap.put(name, cartMap.get(name)-1);
         }
     }
 
