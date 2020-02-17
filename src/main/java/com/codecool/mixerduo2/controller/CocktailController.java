@@ -18,9 +18,6 @@ public class CocktailController {
     private DrinkItemRepository drinkItemRepository;
 
     @Autowired
-    private CocktailDAOMem cocktailDAOMem;
-
-    @Autowired
     private Cart cart;
 
     @GetMapping("/all-data")

@@ -41,10 +41,10 @@ public class CocktailAPIService {
                 .version(HttpClient.Version.HTTP_2)
                 .build();
         List<CompletableFuture<String>> asyncAPICallResult = sendGET(httpClient);
-        fillCocktailDAOMem(asyncAPICallResult);
+        fillDatabase(asyncAPICallResult);
     }
 
-    private void fillCocktailDAOMem(List<CompletableFuture<String>> asyncAPICallResult) throws InterruptedException, java.util.concurrent.ExecutionException, JsonProcessingException {
+    private void fillDatabase(List<CompletableFuture<String>> asyncAPICallResult) throws InterruptedException, java.util.concurrent.ExecutionException, JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         for (CompletableFuture<String> item : asyncAPICallResult) {
             if (item != null && item.get() != null) {

@@ -24,6 +24,5 @@ public class MixerduoBackendApp {
     @PostConstruct
     public void init() throws Exception {
         cocktailAPIService.initDataMemory();
-//        cocktailDAOMem.setCocktailItemsFiltered();
     }
 }
