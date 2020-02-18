@@ -52,6 +52,8 @@ public class CocktailAPIService {
                 DrinksResponse drinksResponse = mapper.treeToValue(tempJNode, DrinksResponse.class);
                 if (drinksResponse.getDrinks() != null) {
                     for (DrinkItem drinkItem : drinksResponse.getDrinks()) {
+                        drinkItem.setIngredients();
+                        drinkItem.setMeasurements();
                         drinkItemRepository.save(drinkItem);
                     }
                 }

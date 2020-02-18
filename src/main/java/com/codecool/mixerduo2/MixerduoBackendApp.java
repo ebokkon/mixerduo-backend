@@ -1,6 +1,5 @@
 package com.codecool.mixerduo2;
 
-import com.codecool.mixerduo2.dao.CocktailDAOMem;
 import com.codecool.mixerduo2.service.CocktailAPIService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -12,9 +11,6 @@ public class MixerduoBackendApp {
 
     @Autowired
     private CocktailAPIService cocktailAPIService;
-
-    @Autowired
-    private CocktailDAOMem cocktailDAOMem;
 
 
     public static void main(String[] args) {

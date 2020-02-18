@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.annotation.Generated;
 import lombok.*;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Data
 @Entity
@@ -78,6 +81,14 @@ public class DrinkItem {
 	@Lob
 	@JsonProperty("strInstructions")
 	private String strInstructions;
+
+	@ElementCollection
+	@Singular
+	List<String> ingredients = new ArrayList();
+
+	@ElementCollection
+	@Singular
+	List<String> measurements = new ArrayList();
 
 	@JsonProperty("strIngredient1")
 	private String strIngredient1;
@@ -188,6 +199,14 @@ public class DrinkItem {
 
 	@JsonProperty("strMeasure15")
 	private String strMeasure15;
+
+	public void setIngredients(){
+		ingredients.addAll(Arrays.asList(strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5, strIngredient6, strIngredient7, strIngredient8, strIngredient9, strIngredient10, strIngredient11, strIngredient12, strIngredient13, strIngredient14, strIngredient15));
+	}
+
+	public void setMeasurements(){
+		measurements.addAll(Arrays.asList(strMeasure1, strMeasure2, strMeasure3, strMeasure4, strMeasure5, strMeasure6, strMeasure7, strMeasure8, strMeasure9, strMeasure10, strMeasure11, strMeasure12, strMeasure13, strMeasure14, strMeasure15));
+	}
 
 //	public void setStrDrinkFR(Object strDrinkFR){
 //		this.strDrinkFR = strDrinkFR;
