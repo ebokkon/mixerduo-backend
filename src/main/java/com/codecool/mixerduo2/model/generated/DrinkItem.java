@@ -90,27 +90,35 @@ public class DrinkItem {
 	@Singular
 	List<String> measurements = new ArrayList();
 
+	@Transient
 	@JsonProperty("strIngredient1")
 	private String strIngredient1;
 
+	@Transient
 	@JsonProperty("strIngredient3")
 	private String strIngredient3;
 
+	@Transient
 	@JsonProperty("strIngredient2")
 	private String strIngredient2;
 
+	@Transient
 	@JsonProperty("strIngredient5")
 	private String strIngredient5;
 
+	@Transient
 	@JsonProperty("strIngredient4")
 	private String strIngredient4;
 
+	@Transient
 	@JsonProperty("strIngredient7")
 	private String strIngredient7;
 
+	@Transient
 	@JsonProperty("strIngredient6")
 	private String strIngredient6;
 
+	@Transient
 	@JsonProperty("strIngredient9")
 	private String strIngredient9;
 
@@ -118,6 +126,7 @@ public class DrinkItem {
 	@JsonProperty("strInstructionsFR")
 	private Object strInstructionsFR;
 
+	@Transient
 	@JsonProperty("strIngredient8")
 	private String strIngredient8;
 
@@ -136,15 +145,19 @@ public class DrinkItem {
 	@JsonProperty("strDrinkDE")
 	private Object strDrinkDE;
 
+	@Transient
 	@JsonProperty("strMeasure12")
 	private String strMeasure12;
 
+	@Transient
 	@JsonProperty("strMeasure13")
 	private String strMeasure13;
 
+	@Transient
 	@JsonProperty("strMeasure10")
 	private String strMeasure10;
 
+	@Transient
 	@JsonProperty("strMeasure11")
 	private String strMeasure11;
 
@@ -163,30 +176,39 @@ public class DrinkItem {
 	@JsonProperty("strInstructionsZH-HANT")
 	private Object strInstructionsZHHANT;
 
+	@Transient
 	@JsonProperty("strMeasure9")
 	private String strMeasure9;
 
+	@Transient
 	@JsonProperty("strMeasure7")
 	private String strMeasure7;
 
+	@Transient
 	@JsonProperty("strMeasure8")
 	private String strMeasure8;
 
+	@Transient
 	@JsonProperty("strMeasure5")
 	private String strMeasure5;
 
+	@Transient
 	@JsonProperty("strMeasure6")
 	private String strMeasure6;
 
+	@Transient
 	@JsonProperty("strMeasure3")
 	private String strMeasure3;
 
+	@Transient
 	@JsonProperty("strMeasure4")
 	private String strMeasure4;
 
+	@Transient
 	@JsonProperty("strMeasure1")
 	private String strMeasure1;
 
+	@Transient
 	@JsonProperty("strMeasure2")
 	private String strMeasure2;
 
@@ -194,9 +216,11 @@ public class DrinkItem {
 	@JsonProperty("strInstructionsZH-HANS")
 	private Object strInstructionsZHHANS;
 
+	@Transient
 	@JsonProperty("strMeasure14")
 	private String strMeasure14;
 
+	@Transient
 	@JsonProperty("strMeasure15")
 	private String strMeasure15;
 
