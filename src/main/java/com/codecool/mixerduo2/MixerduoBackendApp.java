@@ -1,5 +1,6 @@
 package com.codecool.mixerduo2;
 
+import com.codecool.mixerduo2.repository.ClientRepository;
 import com.codecool.mixerduo2.service.CocktailAPIService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -12,13 +13,12 @@ public class MixerduoBackendApp {
     @Autowired
     private CocktailAPIService cocktailAPIService;
 
-
     public static void main(String[] args) {
         SpringApplication.run(MixerduoBackendApp.class, args);
     }
 
     @PostConstruct
     public void init() throws Exception {
-        cocktailAPIService.initDataMemory();
+        cocktailAPIService.initCocktailDataMemory();
     }
 }
