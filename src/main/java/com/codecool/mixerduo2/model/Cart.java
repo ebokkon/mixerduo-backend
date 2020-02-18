@@ -1,18 +1,37 @@
 package com.codecool.mixerduo2.model;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
 @Component
 public class Cart implements Serializable {
 
-    private String id = UUID.randomUUID().toString();
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @OneToOne
+    @JoinColumn(name= "client_id")
+    private Client user;
+//    private int userId = 1;
+
+    @ElementCollection
     private Map<String, Integer> cartMap = new HashMap<>();
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
