@@ -29,20 +29,24 @@ public class CocktailController {
     @Autowired
     private Cart cart;
 
+    @Autowired
+    private Client client;
+
     @GetMapping("/all-data")
     public List<DrinkItem> getData() {
         buildClient();
+        cartRepository.saveAndFlush(cart);
         return drinkItemRepository.findAll();
     }
 
     private void buildClient() {
-        Client newUser = Client.builder()
+        client = Client.builder()
                 .name("Eduardo Palmeras")
                 .password("#&fsk$gßs&s#")
                 .cart(cart)
                 .build();
-        cart.setClient(newUser);
-        clientRepository.save(newUser);
+        cart.setClient(client);
+        clientRepository.save(client);
     }
 
     @GetMapping("/cocktails/{id}")
@@ -52,30 +56,34 @@ public class CocktailController {
     }
 
     @GetMapping("/get-cart")
-    public Map<String,Integer> getCart() { // TODO use Jackson, its supplied by Spring
-        cartRepository.saveAndFlush(cart);
-        return cart.getCartMap();
+    public List<Map<String, Integer>> getCart() {
+        List<Map<String, Integer>> cartByClientId = cartRepository.findCartByClientId(client.getId());
+        System.out.println(cartByClientId.toString());
+        return cartByClientId;
     }
 
     @GetMapping("/add-to-cart/{coursename}")
-    public Map<String,Integer> addToCart (@PathVariable("coursename") String name){
+    public List<Map<String, Integer>> addToCart (@PathVariable("coursename") String name){
         cart.addToCart(name);
         cartRepository.saveAndFlush(cart);
-        return cart.getCartMap();
+        return cartRepository.findCartByClientId(client.getId());
+
     }
 
     @GetMapping("/remove-from-cart/{coursename}")
     public Map<String,Integer> removeFromCart (@PathVariable("coursename") String name){
-        cart.removeFromCart(name);
-        cartRepository.saveAndFlush(cart);
-        return cart.getCartMap();
+//        cart.removeFromCart(name);
+//        cartRepository.saveAndFlush(cart);
+//        return cartRepository.getCartMap();
+        return null;
     }
 
     @GetMapping("/increase-in-cart/{coursename}")
     public Map<String,Integer> increaseItemQuantity (@PathVariable("coursename") String name){
-        cart.increaseQuantity(name);
-        cartRepository.saveAndFlush(cart);
-        return cart.getCartMap();
+//        cart.increaseQuantity(name);
+//        cartRepository.saveAndFlush(cart);
+//        return cartRepository.getCartMap();
+        return null;
     }
 
     @GetMapping("/decrease-in-cart/{coursename}")
