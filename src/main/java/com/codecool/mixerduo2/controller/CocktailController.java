@@ -41,7 +41,7 @@ public class CocktailController {
                 .password("#&fsk$gßs&s#")
                 .cart(cart)
                 .build();
-        cart.setUser(newUser);
+        cart.setClient(newUser);
         clientRepository.save(newUser);
     }
 

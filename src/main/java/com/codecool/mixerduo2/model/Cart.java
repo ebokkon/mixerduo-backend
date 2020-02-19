@@ -3,7 +3,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -25,7 +24,7 @@ public class Cart implements Serializable {
 
     @OneToOne
     @JoinColumn(name= "client_id")
-    private Client user;
+    private Client client;
 //    private int userId = 1;
 
     @ElementCollection
