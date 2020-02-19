@@ -5,7 +5,9 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -24,7 +26,13 @@ public class Cart implements Serializable {
     @JsonIgnore
     private Client client;
 
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @Singular
+    private List<Course> courses = new ArrayList<>();
+
     @ElementCollection
+    @Column(name="quantity")
+    @MapKeyColumn(name="coursename")
     private Map<String, Integer> cartMap = new HashMap<>();
 
     public Long getId() {
@@ -59,6 +67,10 @@ public class Cart implements Serializable {
         if (cartMap.containsKey(name) && cartMap.get(name) > 1) {
             cartMap.put(name, cartMap.get(name)-1);
         }
+    }
+
+    public void addToCourses(Course course){
+        courses.add(course);
     }
 
     @Override
