@@ -26,16 +26,15 @@ public class CocktailController {
     @Autowired
     private ClientRepository clientRepository;
 
-    @Autowired
-    private Cart cart;
 
-    @Autowired
+    private Cart cart;
     private Client client;
 
     @GetMapping("/all-data")
     public List<DrinkItem> getData() {
+        cart = new Cart();
+        cartRepository.save(cart);
         buildClient();
-        cartRepository.saveAndFlush(cart);
         return drinkItemRepository.findAll();
     }
 
@@ -45,7 +44,6 @@ public class CocktailController {
                 .password("#&fsk$gßs&s#")
                 .cart(cart)
                 .build();
-        cart.setClient(client);
         clientRepository.save(client);
     }
 
@@ -56,19 +54,18 @@ public class CocktailController {
     }
 
     @GetMapping("/get-cart")
-    public List<Map<String, Integer>> getCart() {
-        List<Map<String, Integer>> cartByClientId = cartRepository.findCartByClientId(client.getId());
-        System.out.println(cartByClientId.toString());
-        return cartByClientId;
+    public Map<String, Integer> getCart() {
+        Cart allCartData = cartRepository.findCartByClient(client.getId());
+        return allCartData.getCartMap();
     }
-
-    @GetMapping("/add-to-cart/{coursename}")
-    public List<Map<String, Integer>> addToCart (@PathVariable("coursename") String name){
-        cart.addToCart(name);
-        cartRepository.saveAndFlush(cart);
-        return cartRepository.findCartByClientId(client.getId());
-
-    }
+//
+//    @GetMapping("/add-to-cart/{coursename}")
+//    public List<Cart> addToCart (@PathVariable("coursename") String name){
+//        cart.addToCart(name);
+//        cartRepository.saveAndFlush(cart);
+//        return cartRepository.findCartByClientId((long) 4);
+//
+//    }
 
     @GetMapping("/remove-from-cart/{coursename}")
     public Map<String,Integer> removeFromCart (@PathVariable("coursename") String name){

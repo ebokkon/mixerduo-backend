@@ -24,6 +24,6 @@ public class Client {
 
     private String password;
 
-    @OneToOne(mappedBy = "client", cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Cart cart;
 }

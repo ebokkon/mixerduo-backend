@@ -1,8 +1,6 @@
 package com.codecool.mixerduo2.model;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -22,10 +20,9 @@ public class Cart implements Serializable {
     @GeneratedValue
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name= "client_id")
+    @OneToOne(mappedBy = "cart")
+    @JsonIgnore
     private Client client;
-//    private int userId = 1;
 
     @ElementCollection
     private Map<String, Integer> cartMap = new HashMap<>();
