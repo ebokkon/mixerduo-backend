@@ -26,9 +26,9 @@ public class Cart implements Serializable {
     @JsonIgnore
     private Client client;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @Singular
-    private List<Course> courses = new ArrayList<>();
+//    @OneToMany(cascade = CascadeType.PERSIST)
+//    @Singular
+//    private List<Course> courses = new ArrayList<>();
 
     @ElementCollection
     @Column(name="quantity")
@@ -69,9 +69,9 @@ public class Cart implements Serializable {
         }
     }
 
-    public void addToCourses(Course course){
-        courses.add(course);
-    }
+//    public void addToCourses(Course course){
+//        courses.add(course);
+//    }
 
     @Override
     public String toString() {
