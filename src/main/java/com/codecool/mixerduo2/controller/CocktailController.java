@@ -1,13 +1,10 @@
 package com.codecool.mixerduo2.controller;
 
-import com.codecool.mixerduo2.dao.CocktailDAOMem;
 import com.codecool.mixerduo2.model.Cart;
 import com.codecool.mixerduo2.model.Client;
-import com.codecool.mixerduo2.model.Course;
 import com.codecool.mixerduo2.model.generated.DrinkItem;
 import com.codecool.mixerduo2.repository.CartRespository;
 import com.codecool.mixerduo2.repository.ClientRepository;
-import com.codecool.mixerduo2.repository.CourseRepository;
 import com.codecool.mixerduo2.repository.DrinkItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +24,6 @@ public class CocktailController {
 
     @Autowired
     private ClientRepository clientRepository;
-
-    @Autowired
-    private CourseRepository courseRepository;
-
 
     private Cart cart;
     private Client client;

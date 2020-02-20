@@ -5,9 +5,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Data
@@ -25,10 +23,6 @@ public class Cart implements Serializable {
     @OneToOne(mappedBy = "cart")
     @JsonIgnore
     private Client client;
-
-//    @OneToMany(cascade = CascadeType.PERSIST)
-//    @Singular
-//    private List<Course> courses = new ArrayList<>();
 
     @ElementCollection
     @Column(name="quantity")

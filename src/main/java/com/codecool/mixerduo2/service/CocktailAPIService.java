@@ -1,6 +1,5 @@
 package com.codecool.mixerduo2.service;
 
-import com.codecool.mixerduo2.dao.CocktailDAOMem;
 import com.codecool.mixerduo2.model.generated.DrinkItem;
 import com.codecool.mixerduo2.model.generated.DrinksResponse;
 import com.codecool.mixerduo2.repository.DrinkItemRepository;
@@ -27,9 +26,6 @@ public class CocktailAPIService {
 
     @Autowired
     private DrinkItemRepository drinkItemRepository;
-
-    @Autowired
-    private CocktailDAOMem cocktailDAOMem;
 
     @Value("${cocktails.url}")
     private String cocktailsUrl;
