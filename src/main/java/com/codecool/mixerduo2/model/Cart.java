@@ -1,18 +1,41 @@
 package com.codecool.mixerduo2.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
 @Component
 public class Cart implements Serializable {
 
-    private String id = UUID.randomUUID().toString();
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @OneToOne(mappedBy = "cart")
+    @JsonIgnore
+    private Client client;
+
+//    @OneToMany(cascade = CascadeType.PERSIST)
+//    @Singular
+//    private List<Course> courses = new ArrayList<>();
+
+    @ElementCollection
+    @Column(name="quantity")
+    @MapKeyColumn(name="coursename")
     private Map<String, Integer> cartMap = new HashMap<>();
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
@@ -45,6 +68,10 @@ public class Cart implements Serializable {
             cartMap.put(name, cartMap.get(name)-1);
         }
     }
+
+//    public void addToCourses(Course course){
+//        courses.add(course);
+//    }
 
     @Override
     public String toString() {

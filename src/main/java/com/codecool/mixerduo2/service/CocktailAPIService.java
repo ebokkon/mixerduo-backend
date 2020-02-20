@@ -11,16 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 @Service
 public class CocktailAPIService {
@@ -36,7 +36,7 @@ public class CocktailAPIService {
 
     private final List<String> abc = Arrays.asList("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z");
 
-    public void initDataMemory () throws Exception {
+    public void initCocktailDataMemory () throws Exception {
         HttpClient httpClient = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_2)
                 .build();
@@ -52,6 +52,8 @@ public class CocktailAPIService {
                 DrinksResponse drinksResponse = mapper.treeToValue(tempJNode, DrinksResponse.class);
                 if (drinksResponse.getDrinks() != null) {
                     for (DrinkItem drinkItem : drinksResponse.getDrinks()) {
+                        drinkItem.setIngredients();
+                        drinkItem.setMeasurements();
                         drinkItemRepository.save(drinkItem);
                     }
                 }
@@ -74,3 +76,4 @@ public class CocktailAPIService {
     }
 
 }
+

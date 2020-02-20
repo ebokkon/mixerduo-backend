@@ -4,18 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-public class Course {
+@Component
+public class Client {
 
     @Id
     @GeneratedValue
@@ -23,7 +22,8 @@ public class Course {
 
     private String name;
 
-    private int price;
+    private String password;
 
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private Cart cart;
 }
-
