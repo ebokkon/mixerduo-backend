@@ -1,7 +1,6 @@
 package com.codecool.mixerduo2.controller;
 
 import com.codecool.mixerduo2.model.CocktailItem;
-import com.codecool.mixerduo2.model.generated.DrinkItem;
 import com.codecool.mixerduo2.service.DataProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

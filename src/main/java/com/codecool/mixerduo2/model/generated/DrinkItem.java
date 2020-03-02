@@ -9,27 +9,18 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-//@Data
-//@Entity
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@Builder
 @Generated("com.robohorse.robopojogenerator")
 public class DrinkItem {
 
-//	@Transient
 	@JsonProperty("strDrinkFR")
 	private Object strDrinkFR;
 
-//	@Transient
 	@JsonProperty("strInstructionsDE")
 	private String strInstructionsDE;
 
-//	@Transient
 	@JsonProperty("strDrinkZH-HANS")
 	private Object strDrinkZHHANS;
 
-//	@Transient
 	@JsonProperty("strDrinkZH-HANT")
 	private Object strDrinkZHHANT;
 
@@ -60,168 +51,127 @@ public class DrinkItem {
 	@JsonProperty("strIngredient15")
 	private String strIngredient15;
 
-//	@Transient
 	@JsonProperty("strCreativeCommonsConfirmed")
 	private String strCreativeCommonsConfirmed;
 
 	@JsonProperty("strIBA")
 	private String strIBA;
 
-//	@Transient
 	@JsonProperty("strDrinkES")
 	private Object strDrinkES;
 
-//	@Transient
 	@JsonProperty("strVideo")
 	private Object strVideo;
 
-//	@Transient
 	@JsonProperty("strTags")
 	private Object strTags;
 
-//	@Lob
 	@JsonProperty("strInstructions")
 	private String strInstructions;
 
-//	@ElementCollection
-//	@Singular
 	List<String> ingredients = new ArrayList();
 
-//	@ElementCollection
-//	@Singular
 	List<String> measurements = new ArrayList();
 
-//	@Transient
 	@JsonProperty("strIngredient1")
 	private String strIngredient1;
 
-//	@Transient
 	@JsonProperty("strIngredient3")
 	private String strIngredient3;
 
-//	@Transient
 	@JsonProperty("strIngredient2")
 	private String strIngredient2;
 
-//	@Transient
 	@JsonProperty("strIngredient5")
 	private String strIngredient5;
 
-//	@Transient
 	@JsonProperty("strIngredient4")
 	private String strIngredient4;
 
-//	@Transient
 	@JsonProperty("strIngredient7")
 	private String strIngredient7;
 
-//	@Transient
 	@JsonProperty("strIngredient6")
 	private String strIngredient6;
 
-//	@Transient
 	@JsonProperty("strIngredient9")
 	private String strIngredient9;
 
-//	@Transient
 	@JsonProperty("strInstructionsFR")
 	private Object strInstructionsFR;
 
-//	@Transient
 	@JsonProperty("strIngredient8")
 	private String strIngredient8;
 
-//	@Id
 	@JsonProperty("idDrink")
 	private String idDrink;
 
-//	@Transient
 	@JsonProperty("strInstructionsES")
 	private Object strInstructionsES;
 
 	@JsonProperty("strGlass")
 	private String strGlass;
 
-//	@Transient
 	@JsonProperty("strDrinkDE")
 	private Object strDrinkDE;
 
-//	@Transient
 	@JsonProperty("strMeasure12")
 	private String strMeasure12;
 
-//	@Transient
 	@JsonProperty("strMeasure13")
 	private String strMeasure13;
 
-//	@Transient
 	@JsonProperty("strMeasure10")
 	private String strMeasure10;
 
-//	@Transient
 	@JsonProperty("strMeasure11")
 	private String strMeasure11;
 
-//	@Transient
 	@JsonProperty("dateModified")
 	private String dateModified;
 
-//	@Transient
 	@JsonProperty("strDrinkAlternate")
 	private Object strDrinkAlternate;
 
 	@JsonProperty("strDrinkThumb")
 	private String strDrinkThumb;
 
-//	@Transient
 	@JsonProperty("strInstructionsZH-HANT")
 	private Object strInstructionsZHHANT;
 
-//	@Transient
 	@JsonProperty("strMeasure9")
 	private String strMeasure9;
 
-//	@Transient
 	@JsonProperty("strMeasure7")
 	private String strMeasure7;
 
-//	@Transient
 	@JsonProperty("strMeasure8")
 	private String strMeasure8;
 
-//	@Transient
 	@JsonProperty("strMeasure5")
 	private String strMeasure5;
 
-//	@Transient
 	@JsonProperty("strMeasure6")
 	private String strMeasure6;
-//
-//	@Transient
+
 	@JsonProperty("strMeasure3")
 	private String strMeasure3;
 
-//	@Transient
 	@JsonProperty("strMeasure4")
 	private String strMeasure4;
 
-//	@Transient
 	@JsonProperty("strMeasure1")
 	private String strMeasure1;
 
-//	@Transient
 	@JsonProperty("strMeasure2")
 	private String strMeasure2;
 
-//	@Transient
 	@JsonProperty("strInstructionsZH-HANS")
 	private Object strInstructionsZHHANS;
 
-//	@Transient
 	@JsonProperty("strMeasure14")
 	private String strMeasure14;
 
-//	@Transient
 	@JsonProperty("strMeasure15")
 	private String strMeasure15;
 
