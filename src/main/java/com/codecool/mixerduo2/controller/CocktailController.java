@@ -15,12 +15,12 @@ public class CocktailController {
     @Autowired
     private DataProviderService dataProviderService;
 
-    @GetMapping("/all-data")
+    @GetMapping("/cocktails")
     public List<DrinkItem> getData() {
         return dataProviderService.getAllData();
     }
 
-    @GetMapping("/cocktails/{id}")
+    @PostMapping("/cocktails/{id}")
     public Optional<DrinkItem> getCocktailById(@PathVariable("id") int id){
         return dataProviderService.getCocktailById(id);
     }
@@ -30,22 +30,22 @@ public class CocktailController {
         return dataProviderService.getCart();
     }
 
-    @GetMapping("/add-to-cart/{coursename}")
+    @PostMapping("/add/{coursename}")
     public Map<String, Integer> addToCart (@PathVariable("coursename") String name){
         return dataProviderService.addToCart(name);
     }
 
-    @GetMapping("/remove-from-cart/{coursename}")
+    @DeleteMapping("/remove/{coursename}")
     public Map<String,Integer> removeFromCart (@PathVariable("coursename") String name){
         return dataProviderService.removeFromCart(name);
     }
 
-    @GetMapping("/increase-in-cart/{coursename}")
+    @PutMapping("/increase/{coursename}")
     public Map<String,Integer> increaseItemQuantity (@PathVariable("coursename") String name){
         return dataProviderService.increaseItemQuantity(name);
     }
 
-    @GetMapping("/decrease-in-cart/{coursename}")
+    @PutMapping("/decrease/{coursename}")
     public Map<String,Integer> decreaseItemQuantity (@PathVariable("coursename") String name){
         return dataProviderService.decreaseItemQuantity(name);
     }
