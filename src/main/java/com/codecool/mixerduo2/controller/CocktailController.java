@@ -1,5 +1,6 @@
 package com.codecool.mixerduo2.controller;
 
+import com.codecool.mixerduo2.model.CocktailItem;
 import com.codecool.mixerduo2.model.generated.DrinkItem;
 import com.codecool.mixerduo2.service.DataProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,12 @@ public class CocktailController {
     private DataProviderService dataProviderService;
 
     @GetMapping("/cocktails")
-    public List<DrinkItem> getData() {
+    public List<CocktailItem> getData() {
         return dataProviderService.getAllData();
     }
 
     @PostMapping("/cocktails/{id}")
-    public Optional<DrinkItem> getCocktailById(@PathVariable("id") int id){
+    public Optional<CocktailItem> getCocktailById(@PathVariable("id") int id){
         return dataProviderService.getCocktailById(id);
     }
 

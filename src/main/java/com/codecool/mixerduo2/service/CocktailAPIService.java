@@ -1,8 +1,9 @@
 package com.codecool.mixerduo2.service;
 
+import com.codecool.mixerduo2.model.CocktailItem;
 import com.codecool.mixerduo2.model.generated.DrinkItem;
 import com.codecool.mixerduo2.model.generated.DrinksResponse;
-import com.codecool.mixerduo2.repository.DrinkItemRepository;
+import com.codecool.mixerduo2.repository.CocktailRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
 public class CocktailAPIService {
 
     @Autowired
-    private DrinkItemRepository drinkItemRepository;
+    private CocktailRepository cocktailRepository;
 
     @Value("${cocktails.url}")
     private String cocktailsUrl;
@@ -50,7 +51,19 @@ public class CocktailAPIService {
                     for (DrinkItem drinkItem : drinksResponse.getDrinks()) {
                         drinkItem.setIngredients();
                         drinkItem.setMeasurements();
-                        drinkItemRepository.save(drinkItem);
+                        CocktailItem cocktailItem = CocktailItem.builder()
+                                .idDrink(drinkItem.getIdDrink())
+                                .strDrink(drinkItem.getStrDrink())
+                                .strCategory(drinkItem.getStrCategory())
+                                .strAlcoholic(drinkItem.getStrAlcoholic())
+                                .strIBA((String) drinkItem.getStrIBA())
+                                .strGlass(drinkItem.getStrGlass())
+                                .strDrinkThumb(drinkItem.getStrDrinkThumb())
+                                .strInstructions(drinkItem.getStrInstructions())
+                                .measurements(drinkItem.getMeasurements())
+                                .ingredients(drinkItem.getIngredients())
+                                .build();
+                        cocktailRepository.save(cocktailItem);
                     }
                 }
             }
