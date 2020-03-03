@@ -31,7 +31,7 @@ public class DataProviderService {
 
     private void buildClient() {
         client = Client.builder()
-                .name("Eduardo Palmeras")
+                .username("Eduardo Palmeras")
                 .password("mypassword")
                 .cart(cart)
                 .build();
