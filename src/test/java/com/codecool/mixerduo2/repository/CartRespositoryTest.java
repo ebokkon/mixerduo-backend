@@ -35,7 +35,7 @@ public class CartRespositoryTest {
     @Test
     public void testSaveOneCart(){
         Cart cart = Cart.builder().build();
-        Client client = Client.builder().cart(cart).name("Eszter").password("password").build();
+        Client client = Client.builder().cart(cart).username("Eszter").password("password").build();
 
         cartRespository.saveAndFlush(cart);
         List<Cart> carts = cartRespository.findAll();
@@ -45,7 +45,7 @@ public class CartRespositoryTest {
     @Test
     public void findCartByClient() {
         Cart cart = Cart.builder().build();
-        Client client = Client.builder().cart(cart).name("John").password("doe").build();
+        Client client = Client.builder().cart(cart).username("John").password("doe").build();
         clientRepository.save(client);
         cartRespository.saveAndFlush(cart);
 
@@ -55,7 +55,7 @@ public class CartRespositoryTest {
 
     @Test
     public void testCartIsDeletedWithClient(){
-        Client client = Client.builder().name("Balazs").password("Farago").build();
+        Client client = Client.builder().username("Balazs").password("Farago").build();
         Cart cart = Cart.builder().client(client).build();
         clientRepository.save(client);
         cartRespository.save(cart);
@@ -68,7 +68,7 @@ public class CartRespositoryTest {
     @Test
     public void testCartHasCorrectItems(){
         Cart cart = Cart.builder().cartMap(new HashMap<>()).build();
-        Client client = Client.builder().cart(cart).name("Mr Test").password("test1234").build();
+        Client client = Client.builder().cart(cart).username("Mr Test").password("test1234").build();
         Map<String, Integer> expectedMap = Map.of("Advanced", 1);
         clientRepository.save(client);
         cartRespository.save(cart);

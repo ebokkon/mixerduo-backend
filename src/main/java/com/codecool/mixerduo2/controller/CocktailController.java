@@ -1,5 +1,6 @@
 package com.codecool.mixerduo2.controller;
 
+import com.codecool.mixerduo2.model.Client;
 import com.codecool.mixerduo2.model.CocktailItem;
 import com.codecool.mixerduo2.service.DataProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,4 +51,8 @@ public class CocktailController {
         return dataProviderService.decreaseItemQuantity(name);
     }
 
+    @PostMapping("/users")
+    public List<Client> usersCarts(){
+        return dataProviderService.listClientsAndCarts();
+    }
 }

@@ -31,8 +31,8 @@ public class DataProviderService {
 
     private void buildClient() {
         client = Client.builder()
-                .username("Eduardo Palmeras")
-                .password("mypassword")
+                .username("admin")
+                .password("password")
                 .cart(cart)
                 .build();
         clientRepository.save(client);
@@ -80,5 +80,10 @@ public class DataProviderService {
         allCartData.decreaseQuantity(name);
         cartRepository.save(allCartData);
         return allCartData.getCartMap();
+    }
+    
+    //?? will it provide the carts as well?
+    public List<Client> listClientsAndCarts() {
+        return clientRepository.findAll();
     }
 }

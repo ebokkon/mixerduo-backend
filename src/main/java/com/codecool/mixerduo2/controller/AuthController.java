@@ -1,7 +1,11 @@
 package com.codecool.mixerduo2.controller;
 
+import com.codecool.mixerduo2.model.Client;
+import com.codecool.mixerduo2.restexceptionhandling.UserAlreadyExistAuthenticationException;
 import com.codecool.mixerduo2.model.UserCredentials;
+import com.codecool.mixerduo2.repository.ClientRepository;
 import com.codecool.mixerduo2.security.JwtTokenServices;
+import com.codecool.mixerduo2.service.DataValidateService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.http.ResponseEntity;
@@ -12,30 +16,53 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@CrossOrigin(origins="${main.route}")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+
+    private ClientRepository clientRepository;
 
     private final AuthenticationManager authenticationManager;
 
     private final JwtTokenServices jwtTokenServices;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtTokenServices jwtTokenServices) {
+    private final DataValidateService dataValidateService;
+
+    public AuthController(AuthenticationManager authenticationManager, JwtTokenServices jwtTokenServices, ClientRepository clientRepository, DataValidateService dataValidateService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenServices = jwtTokenServices;
+        this.clientRepository = clientRepository;
+        this.dataValidateService = dataValidateService;
     }
 
     @PostMapping("/sign_up")
-    public HttpStatus registerUser(@RequestBody UserCredentials userCredentials){
-        //check valid sign up data
-        //check username doesn't exist already
-        //save to db
-        return HttpStatus.ACCEPTED;
+    public ResponseEntity registerUser(@RequestBody UserCredentials userCredentials) throws UserAlreadyExistAuthenticationException {
+        String username = userCredentials.getUsername();
+        String password = userCredentials.getPassword();
+
+        //check valid password data
+        List<String> errorList = new ArrayList<>();
+
+        if(!dataValidateService.isValid(password, errorList)){
+//            ResponseEntity.badRequest().body(errorList);
+            return new ResponseEntity(errorList, HttpStatus.BAD_REQUEST);
+        };
+        //check if username exists already
+        if (clientRepository.findByUsername(username).isPresent()){
+            throw new UserAlreadyExistAuthenticationException("Username already exists!");
+        } else {
+            //save to db
+            Client client = Client.builder().username(username).password(password).build();
+            clientRepository.save(client);
+        }
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 
