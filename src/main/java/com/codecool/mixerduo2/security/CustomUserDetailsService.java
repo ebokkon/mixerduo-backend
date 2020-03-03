@@ -13,15 +13,15 @@ import java.util.stream.Collectors;
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private ClientRepository userRepository;
+    private ClientRepository clientRepository;
 
-    public CustomUserDetailsService(ClientRepository userRepository) {
-        this.userRepository = userRepository;
+    public CustomUserDetailsService(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Client user = userRepository.findByUsername(username)
+        Client user = clientRepository.findByUsername(username)
                 .orElseThrow(()-> new UsernameNotFoundException("Username: " + username + " not found"));
         return new User(user.getUsername(), user.getPassword(), user.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
     }

@@ -2,6 +2,7 @@ package com.codecool.mixerduo2.controller;
 
 import com.codecool.mixerduo2.model.UserCredentials;
 import com.codecool.mixerduo2.security.JwtTokenServices;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -28,6 +29,15 @@ public class AuthController {
         this.authenticationManager = authenticationManager;
         this.jwtTokenServices = jwtTokenServices;
     }
+
+    @PostMapping("/sign_up")
+    public HttpStatus registerUser(@RequestBody UserCredentials userCredentials){
+        //check valid sign up data
+        //check username doesn't exist already
+        //save to db
+        return HttpStatus.ACCEPTED;
+    }
+
 
     @PostMapping("/sign_in")
     public ResponseEntity signin(@RequestBody UserCredentials userCredentials){
