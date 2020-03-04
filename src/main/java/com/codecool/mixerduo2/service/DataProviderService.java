@@ -7,11 +7,9 @@ import com.codecool.mixerduo2.repository.CartRespository;
 import com.codecool.mixerduo2.repository.ClientRepository;
 import com.codecool.mixerduo2.repository.CocktailRepository;
 import com.codecool.mixerduo2.security.PasswordEncoderService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -27,30 +25,28 @@ public class DataProviderService {
 
     private PasswordEncoderService pwService;
 
+    private Cart cart;
+    private Client client;
+
     public DataProviderService(CocktailRepository cocktailRepository, CartRespository cartRepository, ClientRepository clientRepository, PasswordEncoderService passwordEncoderService) {
         this.cocktailRepository = cocktailRepository;
         this.cartRepository = cartRepository;
         this.clientRepository = clientRepository;
         this.pwService = passwordEncoderService;
-
     }
 
-    private Cart cart;
-    private Client client;
-
-    private void buildClient() {
+    public void buildClient() {
+        cart = new Cart();
         client = Client.builder()
                 .username("admin")
                 .password(pwService.encodePassword("stars"))
+                .roles(Arrays.asList("ROLE_ADMIN", "ROLE_USER"))
                 .cart(cart)
                 .build();
         clientRepository.save(client);
     }
 
     public List<CocktailItem> getAllData(){
-        cart = new Cart();
-        cartRepository.save(cart);
-        buildClient();
         return cocktailRepository.findAll();
     }
 
