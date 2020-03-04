@@ -70,6 +70,7 @@ public class AuthController {
             clientRepository.save(client);
         }
         model.put("correct", true);
+        model.put("msg", "You can sign in now!");
         return ResponseEntity.ok(model);
     }
 
@@ -90,7 +91,7 @@ public class AuthController {
             return ResponseEntity.ok(model);
         } catch (AuthenticationException e){
             model.put("correct", false);
-            model.put("msg", "Wrong username/password");
+            model.put("msg", "Wrong username/password!");
             return ResponseEntity.ok(model);
         }
     }
