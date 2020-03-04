@@ -14,10 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins="${main.route}")
@@ -66,11 +63,15 @@ public class AuthController {
             return ResponseEntity.ok(model);
         } else {
             //save to db
-            Client client = Client.builder().username(username).password(pwService.encodePassword(password)).build();
+            Client client = Client.builder().username(username).password(pwService.encodePassword(password)).roles(Arrays.asList("ROLE_USER")).build();
             clientRepository.save(client);
         }
+        List<String> roles = Arrays.asList("ROLE_USER");
+        String token = jwtTokenServices.createToken(username, roles);
         model.put("correct", true);
-        model.put("msg", "You can sign in now!");
+        model.put("username", username);
+        model.put("roles", roles);
+        model.put("token", token);
         return ResponseEntity.ok(model);
     }
 
