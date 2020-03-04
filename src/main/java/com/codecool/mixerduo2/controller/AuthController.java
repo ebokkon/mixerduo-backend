@@ -5,6 +5,7 @@ import com.codecool.mixerduo2.restexceptionhandling.UserAlreadyExistAuthenticati
 import com.codecool.mixerduo2.model.UserCredentials;
 import com.codecool.mixerduo2.repository.ClientRepository;
 import com.codecool.mixerduo2.security.JwtTokenServices;
+import com.codecool.mixerduo2.security.PasswordEncoderService;
 import com.codecool.mixerduo2.service.DataValidateService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,11 +36,14 @@ public class AuthController {
 
     private final DataValidateService dataValidateService;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtTokenServices jwtTokenServices, ClientRepository clientRepository, DataValidateService dataValidateService) {
+    private PasswordEncoderService pwService;
+
+    public AuthController(AuthenticationManager authenticationManager, JwtTokenServices jwtTokenServices, ClientRepository clientRepository, DataValidateService dataValidateService, PasswordEncoderService passwordEncoderService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenServices = jwtTokenServices;
         this.clientRepository = clientRepository;
         this.dataValidateService = dataValidateService;
+        this.pwService = passwordEncoderService;
     }
 
     @PostMapping("/sign_up")
@@ -51,15 +55,17 @@ public class AuthController {
         List<String> errorList = new ArrayList<>();
 
         if(!dataValidateService.isValid(password, errorList)){
+            String error = String.join(",", errorList);
+            String errorMessage = "The password must contain at least " + error + "!";
 //            ResponseEntity.badRequest().body(errorList);
-            return new ResponseEntity(errorList, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(errorMessage, HttpStatus.BAD_REQUEST);
         };
         //check if username exists already
         if (clientRepository.findByUsername(username).isPresent()){
             throw new UserAlreadyExistAuthenticationException("Username already exists!");
         } else {
             //save to db
-            Client client = Client.builder().username(username).password(password).build();
+            Client client = Client.builder().username(username).password(pwService.encodePassword(password)).build();
             clientRepository.save(client);
         }
         return new ResponseEntity(HttpStatus.OK);

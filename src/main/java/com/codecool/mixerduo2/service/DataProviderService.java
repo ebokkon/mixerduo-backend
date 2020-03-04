@@ -6,7 +6,10 @@ import com.codecool.mixerduo2.model.CocktailItem;
 import com.codecool.mixerduo2.repository.CartRespository;
 import com.codecool.mixerduo2.repository.ClientRepository;
 import com.codecool.mixerduo2.repository.CocktailRepository;
+import com.codecool.mixerduo2.security.PasswordEncoderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,15 +19,21 @@ import java.util.Optional;
 @Service
 public class DataProviderService {
 
-
-    @Autowired
     private CocktailRepository cocktailRepository;
 
-    @Autowired
     private CartRespository cartRepository;
 
-    @Autowired
     private ClientRepository clientRepository;
+
+    private PasswordEncoderService pwService;
+
+    public DataProviderService(CocktailRepository cocktailRepository, CartRespository cartRepository, ClientRepository clientRepository, PasswordEncoderService passwordEncoderService) {
+        this.cocktailRepository = cocktailRepository;
+        this.cartRepository = cartRepository;
+        this.clientRepository = clientRepository;
+        this.pwService = passwordEncoderService;
+
+    }
 
     private Cart cart;
     private Client client;
@@ -32,7 +41,7 @@ public class DataProviderService {
     private void buildClient() {
         client = Client.builder()
                 .username("admin")
-                .password("password")
+                .password(pwService.encodePassword("stars"))
                 .cart(cart)
                 .build();
         clientRepository.save(client);

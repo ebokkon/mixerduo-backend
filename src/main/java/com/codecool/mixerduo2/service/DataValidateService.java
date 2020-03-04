@@ -19,23 +19,23 @@ public class DataValidateService {
         boolean flag=true;
 
         if (password.length() < 8) {
-            errorList.add("Password length must have at least 8 character!");
+            errorList.add(" 8 character");
             flag=false;
         }
         if (!specialCharPatten.matcher(password).find()) {
-            errorList.add("Password must contain at least one special character!");
+            errorList.add("one special character");
             flag=false;
         }
         if (!UpperCasePatten.matcher(password).find()) {
-            errorList.add("Password must contain at least one uppercase character!");
+            errorList.add(" one uppercase character");
             flag=false;
         }
         if (!lowerCasePatten.matcher(password).find()) {
-            errorList.add("Password must contain at least one lowercase character!");
+            errorList.add(" one lowercase character");
             flag=false;
         }
         if (!digitCasePatten.matcher(password).find()) {
-            errorList.add("Password must contain at least one number!");
+            errorList.add(" one number");
             flag=false;
         }
 
