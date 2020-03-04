@@ -31,23 +31,24 @@ public class CocktailController {
         return dataProviderService.getCart();
     }
 
-    @PostMapping("/add/{coursename}")
-    public Map<String, Integer> addToCart (@PathVariable("coursename") String name){
+    @PostMapping("/add")
+    public Map<String, Integer> addToCart (@RequestParam("title") String name){
+        System.out.println(name);
         return dataProviderService.addToCart(name);
     }
 
-    @DeleteMapping("/remove/{coursename}")
-    public Map<String,Integer> removeFromCart (@PathVariable("coursename") String name){
+    @DeleteMapping("/remove")
+    public Map<String,Integer> removeFromCart (@RequestParam("title") String name){
         return dataProviderService.removeFromCart(name);
     }
 
-    @PutMapping("/increase/{coursename}")
-    public Map<String,Integer> increaseItemQuantity (@PathVariable("coursename") String name){
+    @PutMapping("/increase")
+    public Map<String,Integer> increaseItemQuantity (@RequestParam("title") String name){
         return dataProviderService.increaseItemQuantity(name);
     }
 
-    @PutMapping("/decrease/{coursename}")
-    public Map<String,Integer> decreaseItemQuantity (@PathVariable("coursename") String name){
+    @PutMapping("/decrease")
+    public Map<String,Integer> decreaseItemQuantity (@RequestParam("title") String name){
         return dataProviderService.decreaseItemQuantity(name);
     }
 
