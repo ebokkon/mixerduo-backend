@@ -25,8 +25,6 @@ public class DataProviderService {
 
     private PasswordEncoderService pwService;
 
-    private Cart cart;
-    private Client client;
 
     public DataProviderService(CocktailRepository cocktailRepository, CartRepository cartRepository, ClientRepository clientRepository, PasswordEncoderService passwordEncoderService) {
         this.cocktailRepository = cocktailRepository;
@@ -36,15 +34,29 @@ public class DataProviderService {
     }
 
     public void buildClient() {
-        cart = new Cart();
-        client = Client.builder()
+        Cart adminCart = new Cart();
+        Client admin = Client.builder()
                 .username("admin")
                 .password(pwService.encodePassword("stars"))
                 .roles(Arrays.asList("ROLE_ADMIN", "ROLE_USER"))
-                .cart(cart)
+                .cart(adminCart)
                 .build();
-        cart.setClient(client);
-        clientRepository.save(client);
+        adminCart.setClient(admin);
+        clientRepository.save(admin);
+
+        Cart userCart = new Cart();
+        userCart.addToCart("Advanced");
+        Client user = Client.builder()
+                .username("zuzu")
+                .password(pwService.encodePassword("secret"))
+                .firstname("John")
+                .lastname("Smith")
+                .email("john@smith.com")
+                .roles(Arrays.asList("ROLE_USER"))
+                .cart(userCart)
+                .build();
+        userCart.setClient(user);
+        clientRepository.save(user);
     }
 
     public List<CocktailItem> getAllData(){
@@ -87,8 +99,7 @@ public class DataProviderService {
         cartRepository.save(allCartData);
         return allCartData.getCartMap();
     }
-    
-    //?? will it provide the carts as well?
+
     public List<Client> listClientsAndCarts() {
         return clientRepository.findAll();
     }

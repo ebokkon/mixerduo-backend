@@ -96,7 +96,7 @@ public class AuthController {
         }
         //save to db
         Cart newCart = new Cart();
-        Client client = Client.builder().username(username).password(pwService.encodePassword(password)).cart(newCart).roles(Arrays.asList("ROLE_USER")).build();
+        Client client = Client.builder().username(username).password(pwService.encodePassword(password)).firstname(firstname).lastname(lastname).email(email).cart(newCart).roles(Arrays.asList("ROLE_USER")).build();
         newCart.setClient(client);
         clientRepository.save(client);
 
