@@ -3,6 +3,7 @@ package com.codecool.mixerduo2.service;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
@@ -41,5 +42,27 @@ public class DataValidateService {
 
         return flag;
 
+    }
+
+    public boolean isNotEmptyName(String name, List<String> errorList ){
+        errorList.clear();
+        if(name.length() != 0) {
+            return true;
+        } else {
+            errorList.add("must be at least one character long");
+            return false;
+        }
+    }
+
+    public boolean isValidEmail(String email, List<String> errorList){
+        errorList.clear();
+        Pattern pattern = Pattern.compile("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}");
+        Matcher isMatch = pattern.matcher(email);
+        if (isMatch.matches()){
+            return true;
+        } else {
+            errorList.add("The email provided is not valid");
+            return false;
+        }
     }
 }

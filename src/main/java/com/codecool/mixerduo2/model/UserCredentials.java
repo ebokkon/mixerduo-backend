@@ -13,5 +13,8 @@ public class UserCredentials {
 
     private String username;
     private String password;
+    private String firstname;
+    private String lastname;
+    private String email;
 
 }

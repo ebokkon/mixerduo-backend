@@ -26,6 +26,12 @@ public class Client {
 
     private String password;
 
+    private String firstname;
+
+    private String lastname;
+
+    private String email;
+
     @OneToOne(cascade = CascadeType.PERSIST)
     private Cart cart;
 
