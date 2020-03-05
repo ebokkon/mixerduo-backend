@@ -47,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/add").authenticated()
                 .antMatchers(HttpMethod.PUT, "/decrease").authenticated()
                 .antMatchers(HttpMethod.PUT, "/increase").authenticated()
-                .antMatchers(HttpMethod.DELETE, "remove").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/remove").authenticated()
                 .antMatchers(HttpMethod.POST,"/users").hasRole("ADMIN")
                 .anyRequest().denyAll()
                 .and()

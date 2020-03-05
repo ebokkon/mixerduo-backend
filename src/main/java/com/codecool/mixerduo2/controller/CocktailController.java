@@ -38,7 +38,7 @@ public class CocktailController {
     }
 
     @DeleteMapping("/remove")
-    public Map<String,Integer> removeFromCart (@RequestParam("title") String name){
+    public Map<String,Integer> removeFromCart (@RequestBody String name){
         return dataProviderService.removeFromCart(name);
     }
 
