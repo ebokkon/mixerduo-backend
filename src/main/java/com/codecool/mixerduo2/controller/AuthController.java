@@ -4,7 +4,6 @@ import com.codecool.mixerduo2.model.Cart;
 import com.codecool.mixerduo2.model.Client;
 import com.codecool.mixerduo2.model.UserCredentials;
 import com.codecool.mixerduo2.repository.ClientRepository;
-import com.codecool.mixerduo2.repository.CartRepository;
 import com.codecool.mixerduo2.security.JwtTokenServices;
 import com.codecool.mixerduo2.security.PasswordEncoderService;
 import com.codecool.mixerduo2.service.DataValidateService;
@@ -26,8 +25,6 @@ public class AuthController {
 
     private ClientRepository clientRepository;
 
-    private CartRepository cartRepository;
-
     private final AuthenticationManager authenticationManager;
 
     private final JwtTokenServices jwtTokenServices;
@@ -48,14 +45,32 @@ public class AuthController {
     public ResponseEntity registerUser(@RequestBody UserCredentials userCredentials) {
         String username = userCredentials.getUsername();
         String password = userCredentials.getPassword();
+        String firstname = userCredentials.getFirstname();
+        String lastname = userCredentials.getLastname();
+        String email = userCredentials.getEmail();
         Map<Object, Object> model = new HashMap<>();
 
-        //check valid password data
         List<String> errorList = new ArrayList<>();
 
-        if(!dataValidateService.isValid(password, errorList)){
-            String error = String.join(",", errorList);
-            String errorMessage = "The password must contain at least " + error + "!";
+        if(!dataValidateService.isNotEmptyName(firstname, errorList)){
+            String error = String.join(" ", errorList);
+            String errorMessage = "The firstname " + error + "!";
+            model.put("correct", false);
+            model.put("msg", errorMessage);
+            return ResponseEntity.ok(model);
+        };
+
+        if(!dataValidateService.isNotEmptyName(lastname, errorList)){
+            String error = String.join(" ", errorList);
+            String errorMessage = "The lastname " + error + "!";
+            model.put("correct", false);
+            model.put("msg", errorMessage);
+            return ResponseEntity.ok(model);
+        };
+
+        if(!dataValidateService.isValidEmail(email, errorList)){
+            String error = String.join(" ", errorList);
+            String errorMessage =  error + "!";
             model.put("correct", false);
             model.put("msg", errorMessage);
             return ResponseEntity.ok(model);
@@ -65,14 +80,26 @@ public class AuthController {
             model.put("correct", false);
             model.put("msg", "Username already exists!");
             return ResponseEntity.ok(model);
-        } else {
-            //save to db
-            Cart newCart = new Cart();
-            Client client = Client.builder().username(username).password(pwService.encodePassword(password)).cart(newCart).roles(Arrays.asList("ROLE_USER")).build();
-//            cartRepository.save(newCart);
-            newCart.setClient(client);
-            clientRepository.save(client);
         }
+        if (username.length() < 4){
+            model.put("correct", false);
+            model.put("msg", "Username must be at least 4 characters long!");
+            return ResponseEntity.ok(model);
+        }
+
+        if(!dataValidateService.isValid(password, errorList)){
+            String error = String.join(",", errorList);
+            String errorMessage = "The password must contain at least " + error + "!";
+            model.put("correct", false);
+            model.put("msg", errorMessage);
+            return ResponseEntity.ok(model);
+        }
+        //save to db
+        Cart newCart = new Cart();
+        Client client = Client.builder().username(username).password(pwService.encodePassword(password)).cart(newCart).roles(Arrays.asList("ROLE_USER")).build();
+        newCart.setClient(client);
+        clientRepository.save(client);
+
         List<String> roles = Arrays.asList("ROLE_USER");
         String token = jwtTokenServices.createToken(username, roles);
         model.put("correct", true);
