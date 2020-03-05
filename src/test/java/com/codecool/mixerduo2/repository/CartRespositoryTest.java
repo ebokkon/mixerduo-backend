@@ -27,7 +27,7 @@ public class CartRespositoryTest {
     private TestEntityManager entityManager;
 
     @Autowired
-    private CartRespository cartRespository;
+    private CartRepository cartRespository;
 
     @Autowired
     private ClientRepository clientRepository;

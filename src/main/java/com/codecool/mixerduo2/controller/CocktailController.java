@@ -26,30 +26,29 @@ public class CocktailController {
         return dataProviderService.getCocktailById(id);
     }
 
-    @GetMapping("/get-cart")
-    public Map<String, Integer> getCart() {
-        return dataProviderService.getCart();
+    @PostMapping("/get-cart")
+    public Map<String, Integer> getCart(@RequestParam("username") String username) {
+        return dataProviderService.getCart(username);
     }
 
     @PostMapping("/add")
-    public Map<String, Integer> addToCart (@RequestParam("title") String name){
-        System.out.println(name);
-        return dataProviderService.addToCart(name);
+    public Map<String, Integer> addToCart (@RequestParam("title") String title, @RequestParam("username") String username){
+        return dataProviderService.addToCart(title, username);
     }
 
-    @DeleteMapping("/remove")
-    public Map<String,Integer> removeFromCart (@RequestBody String name){
-        return dataProviderService.removeFromCart(name);
+    @PostMapping("/remove")
+    public Map<String,Integer> removeFromCart (@RequestParam("title") String title, @RequestParam("username") String username){
+        return dataProviderService.removeFromCart(title, username);
     }
 
     @PutMapping("/increase")
-    public Map<String,Integer> increaseItemQuantity (@RequestParam("title") String name){
-        return dataProviderService.increaseItemQuantity(name);
+    public Map<String,Integer> increaseItemQuantity (@RequestParam("title") String title, @RequestParam("username") String username){
+        return dataProviderService.increaseItemQuantity(title, username);
     }
 
     @PutMapping("/decrease")
-    public Map<String,Integer> decreaseItemQuantity (@RequestParam("title") String name){
-        return dataProviderService.decreaseItemQuantity(name);
+    public Map<String,Integer> decreaseItemQuantity (@RequestParam("title") String title, @RequestParam("username") String username){
+        return dataProviderService.decreaseItemQuantity(title, username);
     }
 
     @PostMapping("/users")

@@ -1,8 +1,10 @@
 package com.codecool.mixerduo2.controller;
 
+import com.codecool.mixerduo2.model.Cart;
 import com.codecool.mixerduo2.model.Client;
 import com.codecool.mixerduo2.model.UserCredentials;
 import com.codecool.mixerduo2.repository.ClientRepository;
+import com.codecool.mixerduo2.repository.CartRepository;
 import com.codecool.mixerduo2.security.JwtTokenServices;
 import com.codecool.mixerduo2.security.PasswordEncoderService;
 import com.codecool.mixerduo2.service.DataValidateService;
@@ -23,6 +25,8 @@ import java.util.stream.Collectors;
 public class AuthController {
 
     private ClientRepository clientRepository;
+
+    private CartRepository cartRepository;
 
     private final AuthenticationManager authenticationManager;
 
@@ -63,7 +67,10 @@ public class AuthController {
             return ResponseEntity.ok(model);
         } else {
             //save to db
-            Client client = Client.builder().username(username).password(pwService.encodePassword(password)).roles(Arrays.asList("ROLE_USER")).build();
+            Cart newCart = new Cart();
+            Client client = Client.builder().username(username).password(pwService.encodePassword(password)).cart(newCart).roles(Arrays.asList("ROLE_USER")).build();
+//            cartRepository.save(newCart);
+            newCart.setClient(client);
             clientRepository.save(client);
         }
         List<String> roles = Arrays.asList("ROLE_USER");
