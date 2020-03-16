@@ -1,5 +1,6 @@
 package com.codecool.mixerduo2.controller;
 
+import com.codecool.mixerduo2.model.Client;
 import com.codecool.mixerduo2.model.CocktailItem;
 import com.codecool.mixerduo2.service.DataProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,29 +26,33 @@ public class CocktailController {
         return dataProviderService.getCocktailById(id);
     }
 
-    @GetMapping("/get-cart")
-    public Map<String, Integer> getCart() {
-        return dataProviderService.getCart();
+    @PostMapping("/get-cart")
+    public Map<String, Integer> getCart(@RequestParam("username") String username) {
+        return dataProviderService.getCart(username);
     }
 
-    @PostMapping("/add/{coursename}")
-    public Map<String, Integer> addToCart (@PathVariable("coursename") String name){
-        return dataProviderService.addToCart(name);
+    @PostMapping("/add")
+    public Map<String, Integer> addToCart (@RequestParam("title") String title, @RequestParam("username") String username){
+        return dataProviderService.addToCart(title, username);
     }
 
-    @DeleteMapping("/remove/{coursename}")
-    public Map<String,Integer> removeFromCart (@PathVariable("coursename") String name){
-        return dataProviderService.removeFromCart(name);
+    @PostMapping("/remove")
+    public Map<String,Integer> removeFromCart (@RequestParam("title") String title, @RequestParam("username") String username){
+        return dataProviderService.removeFromCart(title, username);
     }
 
-    @PutMapping("/increase/{coursename}")
-    public Map<String,Integer> increaseItemQuantity (@PathVariable("coursename") String name){
-        return dataProviderService.increaseItemQuantity(name);
+    @PutMapping("/increase")
+    public Map<String,Integer> increaseItemQuantity (@RequestParam("title") String title, @RequestParam("username") String username){
+        return dataProviderService.increaseItemQuantity(title, username);
     }
 
-    @PutMapping("/decrease/{coursename}")
-    public Map<String,Integer> decreaseItemQuantity (@PathVariable("coursename") String name){
-        return dataProviderService.decreaseItemQuantity(name);
+    @PutMapping("/decrease")
+    public Map<String,Integer> decreaseItemQuantity (@RequestParam("title") String title, @RequestParam("username") String username){
+        return dataProviderService.decreaseItemQuantity(title, username);
     }
 
+    @PostMapping("/users")
+    public List<Client> usersCarts(){
+        return dataProviderService.listClientsAndCarts();
+    }
 }

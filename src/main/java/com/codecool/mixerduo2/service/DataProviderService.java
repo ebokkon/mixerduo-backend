@@ -3,12 +3,13 @@ package com.codecool.mixerduo2.service;
 import com.codecool.mixerduo2.model.Cart;
 import com.codecool.mixerduo2.model.Client;
 import com.codecool.mixerduo2.model.CocktailItem;
-import com.codecool.mixerduo2.repository.CartRespository;
+import com.codecool.mixerduo2.repository.CartRepository;
 import com.codecool.mixerduo2.repository.ClientRepository;
 import com.codecool.mixerduo2.repository.CocktailRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.codecool.mixerduo2.security.PasswordEncoderService;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -16,32 +17,49 @@ import java.util.Optional;
 @Service
 public class DataProviderService {
 
-
-    @Autowired
     private CocktailRepository cocktailRepository;
 
-    @Autowired
-    private CartRespository cartRepository;
+    private CartRepository cartRepository;
 
-    @Autowired
     private ClientRepository clientRepository;
 
-    private Cart cart;
-    private Client client;
+    private PasswordEncoderService pwService;
 
-    private void buildClient() {
-        client = Client.builder()
-                .name("Eduardo Palmeras")
-                .password("mypassword")
-                .cart(cart)
+
+    public DataProviderService(CocktailRepository cocktailRepository, CartRepository cartRepository, ClientRepository clientRepository, PasswordEncoderService passwordEncoderService) {
+        this.cocktailRepository = cocktailRepository;
+        this.cartRepository = cartRepository;
+        this.clientRepository = clientRepository;
+        this.pwService = passwordEncoderService;
+    }
+
+    public void buildClient() {
+        Cart adminCart = new Cart();
+        Client admin = Client.builder()
+                .username("admin")
+                .password(pwService.encodePassword("stars"))
+                .roles(Arrays.asList("ROLE_ADMIN", "ROLE_USER"))
+                .cart(adminCart)
                 .build();
-        clientRepository.save(client);
+        adminCart.setClient(admin);
+        clientRepository.save(admin);
+
+        Cart userCart = new Cart();
+        userCart.addToCart("Advanced");
+        Client user = Client.builder()
+                .username("zuzu")
+                .password(pwService.encodePassword("secret"))
+                .firstname("John")
+                .lastname("Smith")
+                .email("john@smith.com")
+                .roles(Arrays.asList("ROLE_USER"))
+                .cart(userCart)
+                .build();
+        userCart.setClient(user);
+        clientRepository.save(user);
     }
 
     public List<CocktailItem> getAllData(){
-        cart = new Cart();
-        cartRepository.save(cart);
-        buildClient();
         return cocktailRepository.findAll();
     }
 
@@ -49,36 +67,40 @@ public class DataProviderService {
         return cocktailRepository.findById(String.valueOf(id));
     }
 
-    public Map<String, Integer> getCart(){
-        Cart allCartData = cartRepository.findCartByClient(client.getId());
+    public Map<String, Integer> getCart(String username){
+        Cart allCartData = cartRepository.findCartByClientUsername(username);
         return allCartData.getCartMap();
     }
 
-    public Map<String, Integer> addToCart (String name){
-        Cart allCartData = cartRepository.findCartByClient(client.getId());
+    public Map<String, Integer> addToCart (String name, String username){
+        Cart allCartData = cartRepository.findCartByClientUsername(username);
         allCartData.addToCart(name);
         cartRepository.save(allCartData);
         return allCartData.getCartMap();
     }
 
-    public Map<String,Integer> removeFromCart (String name){
-        Cart allCartData = cartRepository.findCartByClient(client.getId());
+    public Map<String,Integer> removeFromCart (String name, String username){
+        Cart allCartData = cartRepository.findCartByClientUsername(username);
         allCartData.removeFromCart(name);
         cartRepository.save(allCartData);
         return allCartData.getCartMap();
     }
 
-    public Map<String,Integer> increaseItemQuantity (String name){
-        Cart allCartData = cartRepository.findCartByClient(client.getId());
+    public Map<String,Integer> increaseItemQuantity (String name, String username){
+        Cart allCartData = cartRepository.findCartByClientUsername(username);
         allCartData.increaseQuantity(name);
         cartRepository.save(allCartData);
         return allCartData.getCartMap();
     }
 
-    public Map<String,Integer> decreaseItemQuantity ( String name){
-        Cart allCartData = cartRepository.findCartByClient(client.getId());
+    public Map<String,Integer> decreaseItemQuantity ( String name, String username){
+        Cart allCartData = cartRepository.findCartByClientUsername(username);
         allCartData.decreaseQuantity(name);
         cartRepository.save(allCartData);
         return allCartData.getCartMap();
+    }
+
+    public List<Client> listClientsAndCarts() {
+        return clientRepository.findAll();
     }
 }
