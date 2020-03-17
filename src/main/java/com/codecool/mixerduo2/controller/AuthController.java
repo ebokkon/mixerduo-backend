@@ -6,7 +6,7 @@ import com.codecool.mixerduo2.model.UserCredentials;
 import com.codecool.mixerduo2.repository.ClientRepository;
 import com.codecool.mixerduo2.security.JwtTokenServices;
 import com.codecool.mixerduo2.security.PasswordEncoderService;
-import com.codecool.mixerduo2.service.DataValidateService;
+import com.codecool.mixerduo2.service.SignUpValidator;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,15 +29,15 @@ public class AuthController {
 
     private final JwtTokenServices jwtTokenServices;
 
-    private final DataValidateService dataValidateService;
+    private final SignUpValidator signUpValidator;
 
     private PasswordEncoderService pwService;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtTokenServices jwtTokenServices, ClientRepository clientRepository, DataValidateService dataValidateService, PasswordEncoderService passwordEncoderService) {
+    public AuthController(AuthenticationManager authenticationManager, JwtTokenServices jwtTokenServices, ClientRepository clientRepository, SignUpValidator signUpValidator, PasswordEncoderService passwordEncoderService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenServices = jwtTokenServices;
         this.clientRepository = clientRepository;
-        this.dataValidateService = dataValidateService;
+        this.signUpValidator = signUpValidator;
         this.pwService = passwordEncoderService;
     }
 
@@ -50,50 +50,47 @@ public class AuthController {
         String email = userCredentials.getEmail();
         Map<Object, Object> model = new HashMap<>();
 
-        List<String> errorList = new ArrayList<>();
 
-        if(!dataValidateService.isNotEmptyName(firstname, errorList)){
-            String error = String.join(" ", errorList);
-            String errorMessage = "The firstname " + error + "!";
+        if(!signUpValidator.isValidName(firstname)){
+            String errorMessage = "The firstname must be at least one character long and cannot contain space!";
             model.put("correct", false);
             model.put("msg", errorMessage);
             return ResponseEntity.ok(model);
         };
 
-        if(!dataValidateService.isNotEmptyName(lastname, errorList)){
-            String error = String.join(" ", errorList);
-            String errorMessage = "The lastname " + error + "!";
+        if(!signUpValidator.isValidName(lastname)){
+            String errorMessage = "The lastname must be at least one character long and cannot contain space!";
             model.put("correct", false);
             model.put("msg", errorMessage);
             return ResponseEntity.ok(model);
         };
 
-        if(!dataValidateService.isValidEmail(email, errorList)){
-            String error = String.join(" ", errorList);
-            String errorMessage =  error + "!";
+        if(!signUpValidator.isValidEmail(email)){
             model.put("correct", false);
-            model.put("msg", errorMessage);
+            model.put("msg", "The email provided is not valid");
             return ResponseEntity.ok(model);
         };
+
         //check if username exists already
         if (clientRepository.findByUsername(username).isPresent()){
             model.put("correct", false);
             model.put("msg", "Username already exists!");
             return ResponseEntity.ok(model);
         }
-        if (username.length() < 4){
+
+        if (!signUpValidator.isValidUsername(username)){
             model.put("correct", false);
-            model.put("msg", "Username must be at least 4 characters long!");
+            model.put("msg", "Username must be at least 4 characters long and cannot contain space!");
             return ResponseEntity.ok(model);
         }
 
-        if(!dataValidateService.isValid(password, errorList)){
-            String error = String.join(",", errorList);
-            String errorMessage = "The password must contain at least " + error + "!";
+        if (!signUpValidator.isValidPassword(password)){
+            String errorMessage = "Your password must contain a special character,a digit, an uppercase character, at a least 8 character long and cannot contain space!";
             model.put("correct", false);
             model.put("msg", errorMessage);
             return ResponseEntity.ok(model);
         }
+
         //save to db
         Cart newCart = new Cart();
         Client client = Client.builder().username(username).password(pwService.encodePassword(password)).firstname(firstname).lastname(lastname).email(email).cart(newCart).roles(Arrays.asList("ROLE_USER")).build();

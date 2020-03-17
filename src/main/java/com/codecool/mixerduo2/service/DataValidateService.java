@@ -54,15 +54,5 @@ public class DataValidateService {
         }
     }
 
-    public boolean isValidEmail(String email, List<String> errorList){
-        errorList.clear();
-        Pattern pattern = Pattern.compile("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}");
-        Matcher isMatch = pattern.matcher(email);
-        if (isMatch.matches()){
-            return true;
-        } else {
-            errorList.add("The email provided is not valid");
-            return false;
-        }
-    }
+
 }
