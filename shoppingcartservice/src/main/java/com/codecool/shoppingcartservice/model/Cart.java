@@ -1,5 +1,4 @@
-package com.codecool.apigateway.model;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+package com.codecool.shoppingcartservice.model;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
@@ -17,12 +16,10 @@ import java.util.Map;
 public class Cart implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(mappedBy = "cart")
-    @JsonIgnore
-    private Client client;
+    private String username;
 
     @ElementCollection
     @Column(name="quantity")

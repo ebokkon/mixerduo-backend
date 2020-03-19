@@ -2,11 +2,11 @@ package com.codecool.apigateway.controller;
 
 import com.codecool.apigateway.security.JwtTokenServices;
 import com.codecool.apigateway.security.PasswordEncoderService;
-import com.codecool.apigateway.model.Cart;
 import com.codecool.apigateway.model.Client;
 import com.codecool.apigateway.model.UserCredentials;
 import com.codecool.apigateway.repository.ClientRepository;
 import com.codecool.apigateway.service.DataValidateService;
+import com.codecool.apigateway.service.ShoppingcartServiceCaller;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,6 +23,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/auth")
 public class AuthController {
 
+    private ShoppingcartServiceCaller shoppingcartServiceCaller;
+
     private ClientRepository clientRepository;
 
     private final AuthenticationManager authenticationManager;
@@ -33,12 +35,13 @@ public class AuthController {
 
     private PasswordEncoderService pwService;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtTokenServices jwtTokenServices, ClientRepository clientRepository, DataValidateService dataValidateService, PasswordEncoderService passwordEncoderService) {
+    public AuthController(AuthenticationManager authenticationManager, JwtTokenServices jwtTokenServices, ClientRepository clientRepository, DataValidateService dataValidateService, PasswordEncoderService passwordEncoderService, ShoppingcartServiceCaller shoppingcartServiceCaller) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenServices = jwtTokenServices;
         this.clientRepository = clientRepository;
         this.dataValidateService = dataValidateService;
         this.pwService = passwordEncoderService;
+        this.shoppingcartServiceCaller = shoppingcartServiceCaller;
     }
 
     @PostMapping("/sign_up")
@@ -95,9 +98,8 @@ public class AuthController {
             return ResponseEntity.ok(model);
         }
         //save to db
-        Cart newCart = new Cart();
-        Client client = Client.builder().username(username).password(pwService.encodePassword(password)).firstname(firstname).lastname(lastname).email(email).cart(newCart).roles(Arrays.asList("ROLE_USER")).build();
-        newCart.setClient(client);
+        Long id =  shoppingcartServiceCaller.createNewCart(username);
+        Client client = Client.builder().username(username).password(pwService.encodePassword(password)).firstname(firstname).lastname(lastname).email(email).cartId(id).roles(Arrays.asList("ROLE_USER")).build();
         clientRepository.save(client);
 
         List<String> roles = Arrays.asList("ROLE_USER");

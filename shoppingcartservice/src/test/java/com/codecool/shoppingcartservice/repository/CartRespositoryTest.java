@@ -1,7 +1,5 @@
-package com.codecool.apigateway.repository;
-
-import com.codecool.apigateway.model.Cart;
-import com.codecool.apigateway.model.Client;
+package com.codecool.shoppingcartservice.repository;
+import com.codecool.shoppingcartservice.model.Cart;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,27 +15,20 @@ import java.util.Map;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @ActiveProfiles("test")
 public class CartRespositoryTest {
 
-    @Autowired
-    private TestEntityManager entityManager;
 
     @Autowired
     private CartRepository cartRespository;
 
-    @Autowired
-    private ClientRepository clientRepository;
 
     @Test
     public void testSaveOneCart(){
-        Cart cart = Cart.builder().build();
-        Client client = Client.builder().cart(cart).username("Eszter").password("password").build();
-
+        Cart cart = Cart.builder().username("Esszter").build();
         cartRespository.saveAndFlush(cart);
         List<Cart> carts = cartRespository.findAll();
         assertThat(carts).hasSize(1);
@@ -45,33 +36,18 @@ public class CartRespositoryTest {
 
     @Test
     public void findCartByClient() {
-        Cart cart = Cart.builder().build();
-        Client client = Client.builder().cart(cart).username("John").password("doe").build();
-        clientRepository.save(client);
+        Cart cart = Cart.builder().username("John").build();
         cartRespository.saveAndFlush(cart);
 
-        Cart cartByClient = cartRespository.findCartByClient(client.getId());
-        assertEquals(cart, cartByClient);
+        Cart cartByClient = cartRespository.findCartByClientUsername("John");
+        Assert.assertEquals(cart, cartByClient);
     }
 
-    @Test
-    public void testCartIsDeletedWithClient(){
-        Client client = Client.builder().username("Balazs").password("Farago").build();
-        Cart cart = Cart.builder().client(client).build();
-        clientRepository.save(client);
-        cartRespository.save(cart);
-        entityManager.clear();
-
-        clientRepository.deleteAll();
-        assertThat(cartRespository.findAll()).hasSize(0);
-    }
 
     @Test
     public void testCartHasCorrectItems(){
-        Cart cart = Cart.builder().cartMap(new HashMap<>()).build();
-        Client client = Client.builder().cart(cart).username("Mr Test").password("test1234").build();
+        Cart cart = Cart.builder().username("Mr Test").cartMap(new HashMap<>()).build();
         Map<String, Integer> expectedMap = Map.of("Advanced", 1);
-        clientRepository.save(client);
         cartRespository.save(cart);
 
         cart.addToCart("Advanced");

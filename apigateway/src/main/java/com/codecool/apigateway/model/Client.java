@@ -32,8 +32,7 @@ public class Client {
 
     private String email;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    private Cart cart;
+    private Long cartId;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
