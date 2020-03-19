@@ -32,7 +32,7 @@ public class DataProviderService {
 
 
         Client user = Client.builder()
-                .username("zuzu")
+                .username("john")
                 .password(pwService.encodePassword("secret"))
                 .firstname("John")
                 .lastname("Smith")
