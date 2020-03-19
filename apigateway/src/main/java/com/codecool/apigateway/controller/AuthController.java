@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins="${main.route}")
+@CrossOrigin(origins="http:localhost:3000")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
