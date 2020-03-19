@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@CrossOrigin(origins="${main.route}")
+@CrossOrigin(origins="http://localhost:3000")
 @RequestMapping
 public class CocktailController {
 
@@ -21,7 +21,7 @@ public class CocktailController {
     }
 
     @PostMapping("/cocktails/{id}")
-    public Optional<CocktailItem> getCocktailById(@PathVariable("id") int id){
+    public Optional<CocktailItem> getCocktailById(@PathVariable("id") String id){
         return cocktailProviderService.getCocktailById(id);
     }
 

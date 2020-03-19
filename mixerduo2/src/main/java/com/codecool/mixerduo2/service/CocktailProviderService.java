@@ -18,7 +18,8 @@ public class CocktailProviderService {
         return cocktailRepository.findAll();
     }
 
-    public Optional<CocktailItem> getCocktailById( int id){
-        return cocktailRepository.findById(String.valueOf(id));
+    public Optional<CocktailItem> getCocktailById( String id){
+        System.out.println(id);
+        return cocktailRepository.findById(id);
     }
 }
