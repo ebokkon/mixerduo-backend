@@ -7,6 +7,7 @@ import com.codecool.shoppingcartservice.service.ShoppingCartProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -47,5 +48,8 @@ public class ShoppingCartController {
         return shoppingCartProviderService.decreaseItemQuantity(cartRequest.getTitle(), cartRequest.getUsername());
     }
 
-
+    @PostMapping("/users")
+    public List<Cart> getAllCarts(){
+        return shoppingCartProviderService.getAllCarts();
+    }
 }

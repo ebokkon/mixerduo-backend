@@ -43,41 +43,4 @@ public class DataProviderService {
         clientRepository.save(user);
     }
 
-
-//    public Map<String, Integer> getCart(String username){
-//        Cart allCartData = cartRepository.findCartByClientUsername(username);
-//        return allCartData.getCartMap();
-//    }
-//
-//    public Map<String, Integer> addToCart (String name, String username){
-//        Cart allCartData = cartRepository.findCartByClientUsername(username);
-//        allCartData.addToCart(name);
-//        cartRepository.save(allCartData);
-//        return allCartData.getCartMap();
-//    }
-//
-//    public Map<String,Integer> removeFromCart (String name, String username){
-//        Cart allCartData = cartRepository.findCartByClientUsername(username);
-//        allCartData.removeFromCart(name);
-//        cartRepository.save(allCartData);
-//        return allCartData.getCartMap();
-//    }
-//
-//    public Map<String,Integer> increaseItemQuantity (String name, String username){
-//        Cart allCartData = cartRepository.findCartByClientUsername(username);
-//        allCartData.increaseQuantity(name);
-//        cartRepository.save(allCartData);
-//        return allCartData.getCartMap();
-//    }
-//
-//    public Map<String,Integer> decreaseItemQuantity ( String name, String username){
-//        Cart allCartData = cartRepository.findCartByClientUsername(username);
-//        allCartData.decreaseQuantity(name);
-//        cartRepository.save(allCartData);
-//        return allCartData.getCartMap();
-//    }
-
-    public List<Client> listClientsAndCarts() {
-        return clientRepository.findAll();
-    }
 }

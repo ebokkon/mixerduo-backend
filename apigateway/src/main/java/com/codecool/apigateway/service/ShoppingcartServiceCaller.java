@@ -1,13 +1,17 @@
 package com.codecool.apigateway.service;
 
 import com.codecool.apigateway.model.CartResult;
+import com.codecool.apigateway.model.CartsResults;
+import com.codecool.apigateway.model.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -77,5 +81,15 @@ public class ShoppingcartServiceCaller {
         HttpEntity<Map<String, String>> request = new HttpEntity<Map<String, String>>(map, headers);
         ResponseEntity<Map> results = restTemplate.exchange(baseUrl + path, HttpMethod.PUT, request, Map.class);
         return results.getBody();
+    }
+
+    public CartsResults[] listClientsAndCarts() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        CartsResults cartsResults = new CartsResults();
+        HttpEntity<CartsResults> request = new HttpEntity<CartsResults>(cartsResults, headers);
+        CartsResults[] results = restTemplate.postForObject(baseUrl + "/users", request, CartsResults[].class);
+        System.out.println(Arrays.toString(results));
+        return results;
     }
 }

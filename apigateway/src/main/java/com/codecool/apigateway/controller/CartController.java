@@ -1,12 +1,11 @@
 package com.codecool.apigateway.controller;
 
-import com.codecool.apigateway.model.Client;
+import com.codecool.apigateway.model.CartsResults;
 import com.codecool.apigateway.service.DataProviderService;
 import com.codecool.apigateway.service.ShoppingcartServiceCaller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 
@@ -47,7 +46,7 @@ public class CartController {
     }
 
     @PostMapping("/users")
-    public List<Client> usersCarts(){
-        return dataProviderService.listClientsAndCarts();
+    public CartsResults[] usersCarts(){
+        return shoppingcartServiceCaller.listClientsAndCarts();
     }
 }

@@ -5,6 +5,8 @@ import com.codecool.shoppingcartservice.model.Cart;
 import com.codecool.shoppingcartservice.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -54,4 +56,8 @@ public class ShoppingCartProviderService {
     }
 
 
+    public List<Cart> getAllCarts() {
+        System.out.println(cartRepository.findAll());
+        return cartRepository.findAll();
+    }
 }
