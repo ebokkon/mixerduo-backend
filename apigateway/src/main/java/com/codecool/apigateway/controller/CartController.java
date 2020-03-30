@@ -10,7 +10,7 @@ import java.util.Map;
 
 
 @RestController
-@CrossOrigin(origins="http://localhost:3000")
+@CrossOrigin(origins="${frontend.url}")
 @RequestMapping
 public class CartController {
 
