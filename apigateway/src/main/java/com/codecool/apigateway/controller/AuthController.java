@@ -70,7 +70,12 @@ public class AuthController {
             model.put("msg", errorMessage);
             return ResponseEntity.ok(model);
         };
-
+        //check if email exists already
+        if(clientRepository.findByEmail(email).isPresent()){
+            model.put("correct", false);
+            model.put("msg", "This email is already registered!");
+            return ResponseEntity.ok(model);
+        };
         if(!dataValidateService.isValidEmail(email, errorList)){
             String error = String.join(" ", errorList);
             String errorMessage =  error + "!";
