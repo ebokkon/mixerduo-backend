@@ -22,7 +22,7 @@ public class Config implements CommandLineRunner {
         Cart userCart = new Cart();
         userCart.setId(Long.valueOf(2));
         userCart.addToCart("Advanced");
-        userCart.setUsername("zuzu");
+        userCart.setUsername("john");
         cartRepository.saveAll(Arrays.asList(adminCart, userCart));
     }
 }
